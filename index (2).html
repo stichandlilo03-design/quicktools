@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickTools — Free Online Tools for Students, Developers & Business</title>
+    <meta name="description" content="20+ free online tools: QR Code Generator, PDF Editor, Calculator, Calendar, GPA Calculator, Pomodoro Timer, JSON Formatter, Password Generator. No signup, 100% private.">
+    <meta name="keywords" content="free online tools, QR code generator, menu QR code, price list QR, PDF editor, student tools, GPA calculator, pomodoro timer, scientific calculator, calendar, JSON formatter, password generator, unit converter, developer tools">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="QuickTools — Free Online Tools">
+    <meta property="og:description" content="20+ free tools for students, developers & business. No signup.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.quicktools.sbs">
+    <link rel="canonical" href="https://www.quicktools.sbs">
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebApplication","name":"QuickTools","url":"https://www.quicktools.sbs","description":"Free online tools for students, developers and business","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+    <style>
+:root{--bg:#09090b;--bg2:#111113;--bg3:#18181b;--bg4:#1e1e22;--bg5:#27272a;--border:#2e2e33;--border2:#3f3f46;--t1:#fafafa;--t2:#a1a1aa;--t3:#71717a;--accent:#10b981;--accent2:#059669;--accentBg:rgba(16,185,129,.1);--blue:#3b82f6;--blueBg:rgba(59,130,246,.1);--red:#ef4444;--redBg:rgba(239,68,68,.1);--purple:#a855f7;--purpleBg:rgba(168,85,247,.1);--orange:#f59e0b;--orangeBg:rgba(245,158,11,.1);--pink:#ec4899;--pinkBg:rgba(236,72,153,.1);--r:10px;--rs:6px;--tr:.15s ease}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Inter',system-ui,sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration:none}
+
+/* LAYOUT */
+.app{display:flex;min-height:100vh}
+.sidebar{width:240px;background:var(--bg2);border-right:1px solid var(--border);position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:50;transition:transform .2s ease;scrollbar-width:thin;scrollbar-color:var(--bg5) transparent}
+.sidebar::-webkit-scrollbar{width:4px}
+.sidebar::-webkit-scrollbar-thumb{background:var(--bg5);border-radius:4px}
+.sidebar-header{padding:20px 16px 16px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg2);z-index:2}
+.sidebar-logo{font-size:18px;font-weight:800;letter-spacing:-.5px;display:flex;align-items:center;gap:8px;cursor:pointer}
+.sidebar-logo span{color:var(--accent)}
+.logo-dot{width:28px;height:28px;background:var(--accent);border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#000}
+.sidebar-cat{padding:16px 12px 6px}
+.sidebar-cat-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--t3);padding:0 8px;margin-bottom:4px}
+.sidebar-item{display:flex;align-items:center;gap:10px;padding:8px 12px;margin:1px 0;border-radius:var(--rs);font-size:13px;font-weight:500;color:var(--t2);cursor:pointer;transition:var(--tr);border:none;background:none;width:100%;text-align:left;font-family:inherit}
+.sidebar-item:hover{background:var(--bg3);color:var(--t1)}
+.sidebar-item.active{background:var(--accentBg);color:var(--accent)}
+.sidebar-item .icon{width:18px;text-align:center;font-size:14px;flex-shrink:0}
+.main{margin-left:240px;flex:1;min-width:0}
+
+/* TOPBAR */
+.topbar{height:56px;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 24px;gap:12px;position:sticky;top:0;background:rgba(9,9,11,.85);backdrop-filter:blur(16px);z-index:40}
+.menu-btn{display:none;background:none;border:none;color:var(--t2);font-size:20px;cursor:pointer;padding:4px}
+.topbar-title{font-size:14px;font-weight:600;color:var(--t1)}
+.topbar-badge{font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;background:var(--accentBg);color:var(--accent)}
+
+/* CONTENT */
+.content{padding:32px 28px 80px;max-width:1100px}
+.page{display:none}
+.page.active{display:block}
+
+/* HOME */
+.home-hero{margin-bottom:40px}
+.home-hero h1{font-size:clamp(28px,4vw,42px);font-weight:800;letter-spacing:-1px;line-height:1.15;margin-bottom:12px}
+.home-hero h1 span{color:var(--accent)}
+.home-hero p{color:var(--t2);font-size:15px;line-height:1.6;max-width:500px}
+.cat-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--t3);margin:32px 0 12px;display:flex;align-items:center;gap:8px}
+.home-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.home-card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:18px;cursor:pointer;transition:var(--tr);position:relative}
+.home-card:hover{border-color:var(--border2);transform:translateY(-1px);box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.home-card-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;margin-bottom:10px}
+.home-card h3{font-size:13.5px;font-weight:600;margin-bottom:4px}
+.home-card p{font-size:12px;color:var(--t3);line-height:1.5}
+.home-card-arrow{position:absolute;top:18px;right:18px;color:var(--t3);font-size:12px;transition:var(--tr)}
+.home-card:hover .home-card-arrow{color:var(--accent);transform:translateX(3px)}
+
+/* TOOL PAGE SHARED */
+.tool-back{display:inline-flex;align-items:center;gap:6px;color:var(--t3);font-size:13px;font-weight:500;cursor:pointer;margin-bottom:20px;background:none;border:none;font-family:inherit;transition:var(--tr)}
+.tool-back:hover{color:var(--accent)}
+.tool-title{font-size:22px;font-weight:700;letter-spacing:-.3px;margin-bottom:6px}
+.tool-subtitle{color:var(--t3);font-size:13px;margin-bottom:24px;max-width:550px;line-height:1.6}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:768px){.grid2{grid-template-columns:1fr}}
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:var(--r);padding:20px}
+.card-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);margin-bottom:10px}
+textarea,.inp{width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:var(--rs);padding:10px 12px;color:var(--t1);font-family:'JetBrains Mono',monospace;font-size:13px;outline:none;transition:var(--tr)}
+textarea{resize:vertical;min-height:160px}
+.inp-dm{font-family:'Inter',sans-serif}
+textarea:focus,.inp:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--accentBg)}
+select{width:100%;background:var(--bg4);border:1px solid var(--border);border-radius:var(--rs);padding:10px 12px;color:var(--t1);font-size:13px;outline:none;cursor:pointer;font-family:inherit}
+.lbl{display:block;font-size:11px;font-weight:600;color:var(--t3);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.fld{margin-bottom:12px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border-radius:var(--rs);font-size:12.5px;font-weight:600;cursor:pointer;transition:var(--tr);border:none;font-family:inherit}
+.btn1{background:var(--accent);color:#000}
+.btn1:hover{background:var(--accent2)}
+.btn2{background:var(--bg4);color:var(--t1);border:1px solid var(--border)}
+.btn2:hover{border-color:var(--border2)}
+.btns{display:flex;gap:6px;margin-top:12px;flex-wrap:wrap}
+.out{background:var(--bg4);border:1px solid var(--border);border-radius:var(--rs);padding:12px;font-family:'JetBrains Mono',monospace;font-size:12px;min-height:160px;overflow:auto;white-space:pre-wrap;word-break:break-all;line-height:1.6}
+.stat{display:flex;align-items:center;gap:6px;margin-top:8px;font-size:11px;color:var(--t3)}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--accent)}
+.dot.err{background:var(--red)}
+
+/* TABS */
+.tabs{display:flex;gap:2px;margin-bottom:18px;background:var(--bg2);padding:3px;border-radius:8px;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{padding:7px 14px;border-radius:6px;font-size:12px;font-weight:500;color:var(--t3);cursor:pointer;white-space:nowrap;border:none;background:none;font-family:inherit;transition:var(--tr)}
+.tab:hover{color:var(--t2)}
+.tab.on{background:var(--bg3);color:var(--accent);box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.tc{display:none}.tc.on{display:block}
+
+/* QR */
+.qr-out{display:flex;align-items:center;justify-content:center;min-height:240px;background:#fff;border-radius:var(--rs)}
+.price-row{display:grid;grid-template-columns:1fr 80px 36px;gap:6px;align-items:center;margin-bottom:6px}
+.price-row input{font-family:'Inter',sans-serif}
+.rm-btn{width:32px;height:32px;border-radius:6px;background:var(--redBg);color:var(--red);border:none;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center}
+.price-prev{background:#fff;color:#111;border-radius:var(--rs);padding:28px;font-family:'Inter',sans-serif}
+.price-prev h3{font-size:20px;font-weight:700;color:#000;margin-bottom:4px}
+.price-prev .sub{font-size:12px;color:#666;margin-bottom:16px}
+.price-prev .pl{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px dashed #ddd;font-size:13px}
+.price-prev .pl:last-child{border-bottom:none}
+
+/* COLOR */
+.cprev{width:100%;height:90px;border-radius:var(--rs);border:1px solid var(--border);margin-bottom:12px}
+.cgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* PASSWORD */
+.pw-box{font-family:'JetBrains Mono',monospace;font-size:17px;text-align:center;padding:18px;background:var(--bg4);border:1px solid var(--border);border-radius:var(--rs);word-break:break-all;letter-spacing:1px;min-height:64px;display:flex;align-items:center;justify-content:center}
+.str-bar{height:3px;border-radius:2px;background:var(--bg4);margin-top:8px;overflow:hidden}
+.str-fill{height:100%;border-radius:2px;transition:var(--tr)}
+.srow{display:flex;align-items:center;gap:10px;margin:10px 0}
+.srow input[type="range"]{flex:1;-webkit-appearance:none;background:var(--bg4);height:5px;border-radius:3px;outline:none;border:none;padding:0}
+.srow input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:16px;height:16px;border-radius:50%;background:var(--accent);cursor:pointer}
+.sval{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;min-width:26px;text-align:right}
+.chk{display:flex;align-items:center;gap:7px;margin:5px 0;font-size:12px;color:var(--t2);cursor:pointer}
+.chk input{width:15px;height:15px;accent-color:var(--accent);cursor:pointer}
+
+/* WORD STATS */
+.wstats{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:8px;margin-top:12px}
+.wstat{background:var(--bg4);border:1px solid var(--border);border-radius:var(--rs);padding:12px;text-align:center}
+.wstat-n{font-size:22px;font-weight:700;font-family:'JetBrains Mono',monospace}
+.wstat-l{font-size:10px;color:var(--t3);margin-top:3px;text-transform:uppercase;letter-spacing:.5px}
+
+/* FILE DROP */
+.fdrop{border:2px dashed var(--border);border-radius:var(--r);padding:28px;text-align:center;cursor:pointer;transition:var(--tr)}
+.fdrop:hover,.fdrop.over{border-color:var(--accent);background:var(--accentBg)}
+.fdrop-i{font-size:28px;margin-bottom:8px}
+.fdrop p{color:var(--t3);font-size:12px}
+
+/* MARKDOWN */
+.md-prev{background:var(--bg4);border:1px solid var(--border);border-radius:var(--rs);padding:18px;min-height:160px;line-height:1.7;font-size:13px;overflow:auto}
+.md-prev h1,.md-prev h2,.md-prev h3{margin:14px 0 6px}.md-prev h1{font-size:22px}.md-prev h2{font-size:18px}.md-prev h3{font-size:15px}
+.md-prev p{margin:6px 0}.md-prev code{background:rgba(255,255,255,.06);padding:2px 5px;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:11px}
+.md-prev pre{background:rgba(255,255,255,.04);padding:10px;border-radius:6px;overflow-x:auto;margin:10px 0}
+.md-prev pre code{background:none;padding:0}
+.md-prev ul,.md-prev ol{margin:6px 0;padding-left:22px}
+.md-prev blockquote{border-left:3px solid var(--accent);padding-left:14px;color:var(--t2);margin:10px 0}
+.md-prev a{color:var(--accent)}.md-prev table{border-collapse:collapse;width:100%;margin:10px 0}
+.md-prev th,.md-prev td{border:1px solid var(--border);padding:6px 10px;text-align:left}.md-prev th{background:var(--bg3)}
+
+/* STUDENT - CALCULATOR */
+.calc-display{background:var(--bg4);border:1px solid var(--border);border-radius:var(--rs);padding:16px 20px;text-align:right;margin-bottom:12px}
+.calc-expr{font-size:13px;color:var(--t3);min-height:18px;word-break:break-all}
+.calc-val{font-size:32px;font-weight:700;font-family:'JetBrains Mono',monospace;word-break:break-all}
+.calc-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.calc-btn{padding:14px;border-radius:var(--rs);font-size:16px;font-weight:600;cursor:pointer;border:none;font-family:'Inter',sans-serif;transition:var(--tr)}
+.calc-num{background:var(--bg4);color:var(--t1)}
+.calc-num:hover{background:var(--bg5)}
+.calc-op{background:var(--accentBg);color:var(--accent)}
+.calc-op:hover{background:rgba(16,185,129,.2)}
+.calc-fn{background:var(--bg5);color:var(--t2)}
+.calc-fn:hover{background:var(--border)}
+.calc-eq{background:var(--accent);color:#000}
+.calc-eq:hover{background:var(--accent2)}
+
+/* CALENDAR */
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.cal-nav{background:none;border:1px solid var(--border);border-radius:var(--rs);color:var(--t2);width:32px;height:32px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;transition:var(--tr)}
+.cal-nav:hover{border-color:var(--accent);color:var(--accent)}
+.cal-title{font-size:16px;font-weight:700}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px;text-align:center}
+.cal-day-name{font-size:10px;font-weight:600;color:var(--t3);padding:6px;text-transform:uppercase}
+.cal-day{padding:8px;font-size:13px;border-radius:var(--rs);cursor:pointer;transition:var(--tr);border:1px solid transparent}
+.cal-day:hover{background:var(--bg4);border-color:var(--border)}
+.cal-day.today{background:var(--accentBg);color:var(--accent);font-weight:700;border-color:var(--accent)}
+.cal-day.other{color:var(--t3);opacity:.4}
+.cal-day.has-note{position:relative}
+.cal-day.has-note::after{content:'';position:absolute;bottom:3px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--accent)}
+
+/* GPA */
+.gpa-row{display:grid;grid-template-columns:1fr 80px 100px 36px;gap:6px;align-items:center;margin-bottom:6px}
+.gpa-result{text-align:center;padding:24px;background:var(--bg4);border:1px solid var(--border);border-radius:var(--r)}
+.gpa-num{font-size:48px;font-weight:800;font-family:'JetBrains Mono',monospace}
+.gpa-label{font-size:12px;color:var(--t3);margin-top:4px}
+
+/* POMODORO */
+.pomo-circle{width:200px;height:200px;margin:0 auto 20px;position:relative;display:flex;align-items:center;justify-content:center}
+.pomo-ring{position:absolute;top:0;left:0;width:100%;height:100%}
+.pomo-ring circle{fill:none;stroke-width:6;stroke-linecap:round}
+.pomo-ring .bg{stroke:var(--bg4)}
+.pomo-ring .fg{stroke:var(--accent);transition:stroke-dashoffset 1s linear}
+.pomo-time{font-size:40px;font-weight:800;font-family:'JetBrains Mono',monospace;z-index:1}
+.pomo-label{text-align:center;font-size:13px;color:var(--t3);margin-bottom:16px}
+
+/* NOTEPAD */
+.notepad{width:100%;min-height:400px;background:var(--bg4);border:1px solid var(--border);border-radius:var(--rs);padding:16px;color:var(--t1);font-family:'Inter',sans-serif;font-size:14px;line-height:1.7;outline:none;resize:vertical}
+.notepad:focus{border-color:var(--accent);box-shadow:0 0 0 2px var(--accentBg)}
+
+/* AD */
+.ad{background:var(--bg2);border:1px dashed var(--border);border-radius:var(--rs);padding:14px;text-align:center;color:var(--t3);font-size:10px;margin:24px 0}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:24px 28px;color:var(--t3);font-size:11px}
+footer a{color:var(--t2)}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;right:20px;background:var(--accent);color:#000;padding:8px 16px;border-radius:var(--rs);font-size:12px;font-weight:600;z-index:999;transform:translateY(60px);opacity:0;transition:all .25s ease}
+.toast.show{transform:translateY(0);opacity:1}
+
+/* MOBILE */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:45}
+@media(max-width:768px){
+    .sidebar{transform:translateX(-100%)}
+    .sidebar.open{transform:translateX(0)}
+    .overlay.open{display:block}
+    .main{margin-left:0}
+    .menu-btn{display:block}
+    .home-grid{grid-template-columns:1fr}
+    .content{padding:20px 16px 60px}
+}
+    </style>
+</head>
+<body>
+<div class="app">
+
+<!-- OVERLAY -->
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <div class="sidebar-logo" onclick="goHome()"><div class="logo-dot">Q</div>Quick<span>Tools</span></div>
+    </div>
+
+    <div class="sidebar-cat"><div class="sidebar-cat-label">Business</div></div>
+    <button class="sidebar-item" data-tool="qr" onclick="go('qr')"><span class="icon">⣿</span>QR Code Suite</button>
+    <button class="sidebar-item" data-tool="pdf" onclick="go('pdf')"><span class="icon">📄</span>PDF Tools</button>
+    <button class="sidebar-item" data-tool="imgcompress" onclick="go('imgcompress')"><span class="icon">🖼</span>Image Compressor</button>
+
+    <div class="sidebar-cat"><div class="sidebar-cat-label">Student</div></div>
+    <button class="sidebar-item" data-tool="calc" onclick="go('calc')"><span class="icon">🧮</span>Calculator</button>
+    <button class="sidebar-item" data-tool="calendar" onclick="go('calendar')"><span class="icon">📅</span>Calendar</button>
+    <button class="sidebar-item" data-tool="gpa" onclick="go('gpa')"><span class="icon">🎓</span>GPA Calculator</button>
+    <button class="sidebar-item" data-tool="pomodoro" onclick="go('pomodoro')"><span class="icon">🍅</span>Pomodoro Timer</button>
+    <button class="sidebar-item" data-tool="notepad" onclick="go('notepad')"><span class="icon">📝</span>Notepad</button>
+    <button class="sidebar-item" data-tool="units" onclick="go('units')"><span class="icon">📐</span>Unit Converter</button>
+
+    <div class="sidebar-cat"><div class="sidebar-cat-label">Developer</div></div>
+    <button class="sidebar-item" data-tool="json" onclick="go('json')"><span class="icon">{ }</span>JSON Formatter</button>
+    <button class="sidebar-item" data-tool="base64" onclick="go('base64')"><span class="icon">↔</span>Base64 Converter</button>
+    <button class="sidebar-item" data-tool="hash" onclick="go('hash')"><span class="icon">#</span>Hash Generator</button>
+    <button class="sidebar-item" data-tool="markdown" onclick="go('markdown')"><span class="icon">M↓</span>Markdown Preview</button>
+    <button class="sidebar-item" data-tool="timestamp" onclick="go('timestamp')"><span class="icon">⏱</span>Timestamp</button>
+    <button class="sidebar-item" data-tool="urlenc" onclick="go('urlenc')"><span class="icon">%</span>URL Encode/Decode</button>
+
+    <div class="sidebar-cat"><div class="sidebar-cat-label">Text & Utility</div></div>
+    <button class="sidebar-item" data-tool="color" onclick="go('color')"><span class="icon">◐</span>Color Picker</button>
+    <button class="sidebar-item" data-tool="word" onclick="go('word')"><span class="icon">¶</span>Word Counter</button>
+    <button class="sidebar-item" data-tool="password" onclick="go('password')"><span class="icon">⚿</span>Password Generator</button>
+    <button class="sidebar-item" data-tool="textcase" onclick="go('textcase')"><span class="icon">Aa</span>Text Case</button>
+    <button class="sidebar-item" data-tool="lorem" onclick="go('lorem')"><span class="icon">¶</span>Lorem Ipsum</button>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+<div class="topbar">
+    <button class="menu-btn" onclick="toggleSidebar()">☰</button>
+    <span class="topbar-title" id="topbar-title">Home</span>
+    <span class="topbar-badge">20+ Tools</span>
+</div>
+<div class="content">
+
+<!-- ═══ HOME ═══ -->
+<div id="page-home" class="page active">
+    <div class="home-hero">
+        <h1>Free Online <span>Tools</span><br>That Just Work</h1>
+        <p>20+ fast, private tools for students, developers & business. No signup, no tracking. Everything runs in your browser.</p>
+    </div>
+    <div class="ad"><!-- AdSense: Leaderboard 728x90 --></div>
+
+    <div class="cat-label">⚡ Business Tools</div>
+    <div class="home-grid">
+        <div class="home-card" onclick="go('qr')"><div class="home-card-icon" style="background:var(--accentBg);color:var(--accent)">⣿</div><h3>QR Code Suite</h3><p>URL, WiFi, Contact, Email, SMS, Price List & Menu QR codes</p><div class="home-card-arrow">→</div></div>
+        <div class="home-card" onclick="go('pdf')"><div class="home-card-icon" style="background:var(--redBg);color:var(--red)">📄</div><h3>PDF Tools</h3><p>Create, merge, watermark, images to PDF</p><div class="home-card-arrow">→</div></div>
+        <div class="home-card" onclick="go('imgcompress')"><div class="home-card-icon" style="background:var(--purpleBg);color:var(--purple)">🖼</div><h3>Image Compressor</h3><p>Compress & resize images privately in browser</p><div class="home-card-arrow">→</div></div>
+    </div>
+
+    <div class="cat-label">🎓 Student Tools</div>
+    <div class="home-grid">
+        <div class="home-card" onclick="go('calc')"><div class="home-card-icon" style="background:var(--blueBg);color:var(--blue)">🧮</div><h3>Scientific Calculator</h3><p>Basic & scientific calculations with history</p><div class="home-card-arrow">→</div></div>
+        <div class="home-card" onclick="go('calendar')"><div class="home-card-icon" style="background:var(--orangeBg);color:var(--orange)">📅</div><h3>Calendar & Planner</h3><p>Monthly view with notes and reminders</p><div class="home-card-arrow">→</div></div>
+        <div class="home-card" onclick="go('gpa')"><div class="home-card-icon" style="background:var(--accentBg);color:var(--accent)">🎓</div><h3>GPA Calculator</h3><p>Calculate semester & cumulative GPA</p><div class="home-card-arrow">→</div></div>
+        <div class="home-card" onclick="go('pomodoro')"><div class="home-card-icon" style="background:var(--redBg);color:var(--red)">🍅</div><h3>Pomodoro Timer</h3><p>Focus timer with work & break intervals</p><div class="home-card-arrow">→</div></div>
+        <div class="home-card" onclick="go('notepad')"><div class="home-card-icon" style="background:var(--pinkBg);color:var(--pink)">📝</div><h3>Notepad</h3><p>Quick notes that auto-save locally</p><div class="home-card-arrow">→</div></div>
+        <div class="home-card" onclick="go('units')"><div class="home-card-icon" style="background:var(--purpleBg);color:var(--purple)">📐</div><h3>Unit Converter</h3><p>Length, weight, temperature, volume & more</p><div class="home-card-arrow">→</div></div>
+    </div>
+
+    <div class="ad"><!-- AdSense: Mid-content 336x280 --></div>
+
+    <div class="cat-label">🛠 Developer Tools</div>
+    <div class="home-grid">
+        <div class="home-card" onclick="go('json')"><div class="home-card-icon" style="background:var(--blueBg);color:var(--blue)">{ }</div><h3>JSON Formatter</h3><p>Beautify, minify & validate JSON</p><div class="home-card-arrow">→</div></div>
+        <div class="home-card" onclick="go('base64')"><div class="home-card-icon" style="background:var(--purpleBg);color:var(--purple)">↔</div><h3>Base64 Converter</h3><p>Image to Base64 and back</p><div class="home-card-arrow">→</div></div>
+        <div class="home-card" onclick="go('hash')"><div class="home-card-icon" style="background:var(--blueBg);color:var(--blue)">#</div><h3>Hash Generator</h3><p>SHA-256, SHA-512, SHA-1</p><div class="home-card-arrow">→</div></div>
+        <div class="home-card" onclick="go('markdown')"><div class="home-card-icon" style="background:var(--accentBg);color:var(--accent)">M↓</div><h3>Markdown Preview</h3><p>Live editor with rendered output</p><div class="home-card-arrow">→</div></div>
+        <div class="home-card" onclick="go('timestamp')"><div class="home-card-icon" style="background:var(--pinkBg);color:var(--pink)">⏱</div><h3>Timestamp Converter</h3><p>Unix ↔ human date, live epoch</p><div class="home-card-arrow">→</div></div>
+        <div class="home-card" onclick="go('urlenc')"><div class="home-card-icon" style="background:var(--orangeBg);color:var(--orange)">%</div><h3>URL Encode/Decode</h3><p>Encode & decode URLs</p><div class="home-card-arrow">→</div></div>
+    </div>
+
+    <div class="cat-label">✏️ Text & Utility</div>
+    <div class="home-grid">
+        <div class="home-card" onclick="go('color')"><div class="home-card-icon" style="background:var(--orangeBg);color:var(--orange)">◐</div><h3>Color Picker</h3><p>HEX, RGB, HSL converter + palette</p><div class="home-card-arrow">→</div></div>
+        <div class="home-card" onclick="go('word')"><div class="home-card-icon" style="background:var(--pinkBg);color:var(--pink)">¶</div><h3>Word Counter</h3><p>Words, characters, reading time</p><div class="home-card-arrow">→</div></div>
+        <div class="home-card" onclick="go('password')"><div class="home-card-icon" style="background:var(--redBg);color:var(--red)">⚿</div><h3>Password Generator</h3><p>Crypto-secure with strength meter</p><div class="home-card-arrow">→</div></div>
+        <div class="home-card" onclick="go('textcase')"><div class="home-card-icon" style="background:var(--accentBg);color:var(--accent)">Aa</div><h3>Text Case Converter</h3><p>UPPER, lower, Title, camelCase</p><div class="home-card-arrow">→</div></div>
+        <div class="home-card" onclick="go('lorem')"><div class="home-card-icon" style="background:var(--purpleBg);color:var(--purple)">¶</div><h3>Lorem Ipsum</h3><p>Placeholder text generator</p><div class="home-card-arrow">→</div></div>
+    </div>
+    <div class="ad"><!-- AdSense: Bottom 728x90 --></div>
+</div>
+
+<!-- ═══ QR SUITE ═══ -->
+<div id="page-qr" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">QR Code Suite</h2>
+    <p class="tool-subtitle">Generate QR codes for URLs, WiFi, contacts, emails, SMS, and price lists / menus.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="tabs">
+        <button class="tab on" onclick="qrTab('url',this)">URL / Text</button>
+        <button class="tab" onclick="qrTab('wifi',this)">WiFi</button>
+        <button class="tab" onclick="qrTab('vcard',this)">Contact</button>
+        <button class="tab" onclick="qrTab('email',this)">Email</button>
+        <button class="tab" onclick="qrTab('sms',this)">SMS / Call</button>
+        <button class="tab" onclick="qrTab('pricelist',this)">Price List</button>
+    </div>
+    <div class="grid2">
+        <div class="card">
+            <div id="qt-url" class="tc on"><div class="card-label">Text or URL</div><input class="inp" id="qr-url" placeholder="https://quicktools.sbs" value="https://quicktools.sbs" oninput="makeQR()"></div>
+            <div id="qt-wifi" class="tc"><div class="card-label">WiFi</div><div class="fld"><label class="lbl">SSID</label><input class="inp" id="qr-wssid" placeholder="Network name" oninput="makeQR()"></div><div class="fld"><label class="lbl">Password</label><input class="inp" id="qr-wpass" placeholder="pass" oninput="makeQR()"></div><div class="fld"><label class="lbl">Security</label><select id="qr-wenc" onchange="makeQR()"><option value="WPA">WPA/WPA2</option><option value="WEP">WEP</option><option value="nopass">None</option></select></div></div>
+            <div id="qt-vcard" class="tc"><div class="card-label">Contact</div><div class="fld"><label class="lbl">Name</label><input class="inp inp-dm" id="qr-vn" placeholder="John Doe" oninput="makeQR()"></div><div class="fld"><label class="lbl">Phone</label><input class="inp" id="qr-vp" placeholder="+254700000000" oninput="makeQR()"></div><div class="fld"><label class="lbl">Email</label><input class="inp" id="qr-ve" placeholder="john@example.com" oninput="makeQR()"></div><div class="fld"><label class="lbl">Company</label><input class="inp inp-dm" id="qr-vo" placeholder="Company" oninput="makeQR()"></div><div class="fld"><label class="lbl">Website</label><input class="inp" id="qr-vu" placeholder="https://" oninput="makeQR()"></div></div>
+            <div id="qt-email" class="tc"><div class="card-label">Email</div><div class="fld"><label class="lbl">To</label><input class="inp" id="qr-eto" placeholder="hello@example.com" oninput="makeQR()"></div><div class="fld"><label class="lbl">Subject</label><input class="inp inp-dm" id="qr-esub" placeholder="Inquiry" oninput="makeQR()"></div><div class="fld"><label class="lbl">Body</label><textarea id="qr-ebody" placeholder="Hi..." style="min-height:70px" oninput="makeQR()"></textarea></div></div>
+            <div id="qt-sms" class="tc"><div class="card-label">SMS / Call</div><div class="fld"><label class="lbl">Phone</label><input class="inp" id="qr-sph" placeholder="+254700000000" oninput="makeQR()"></div><div class="fld"><label class="lbl">Message</label><textarea id="qr-smsg" placeholder="Hi..." style="min-height:70px" oninput="makeQR()"></textarea></div><div class="fld"><select id="qr-stype" onchange="makeQR()"><option value="sms">SMS</option><option value="tel">Phone Call</option></select></div></div>
+            <div id="qt-pricelist" class="tc"><div class="card-label">Business Info</div><div class="fld"><label class="lbl">Business Name</label><input class="inp inp-dm" id="pl-name" placeholder="Joe's Coffee" oninput="plUpdate()"></div><div class="fld"><label class="lbl">Tagline</label><input class="inp inp-dm" id="pl-desc" placeholder="Fresh brews daily" oninput="plUpdate()"></div><div class="fld"><label class="lbl">Currency</label><input class="inp" id="pl-cur" value="KES" style="width:90px" oninput="plUpdate()"></div><div class="card-label" style="margin-top:12px">Items</div><div id="pl-items"><div class="price-row"><input class="inp inp-dm" class="pl-n" placeholder="Item" value="Espresso" oninput="plUpdate()"><input class="inp" class="pl-p" placeholder="Price" value="250" oninput="plUpdate()"><button class="rm-btn" onclick="plRm(this)">×</button></div><div class="price-row"><input class="inp inp-dm" class="pl-n" placeholder="Item" value="Cappuccino" oninput="plUpdate()"><input class="inp" class="pl-p" placeholder="Price" value="350" oninput="plUpdate()"><button class="rm-btn" onclick="plRm(this)">×</button></div><div class="price-row"><input class="inp inp-dm" class="pl-n" placeholder="Item" value="Sandwich" oninput="plUpdate()"><input class="inp" class="pl-p" placeholder="Price" value="500" oninput="plUpdate()"><button class="rm-btn" onclick="plRm(this)">×</button></div></div><button class="btn btn2" style="margin-top:6px" onclick="plAdd()">+ Add Item</button></div>
+            <div class="btns" style="margin-top:16px"><button class="btn btn1" onclick="makeQR()">⣿ Generate</button><button class="btn btn2" onclick="dlQR()">↓ Download</button></div>
+        </div>
+        <div>
+            <div class="card"><div class="card-label">QR Preview</div><div class="qr-out" id="qr-out"></div></div>
+            <div class="card" id="pl-prev-card" style="margin-top:12px;display:none"><div class="card-label">Price List Preview</div><div class="price-prev" id="pl-prev"></div><div class="btns"><button class="btn btn2" onclick="dlPL()">↓ Download Image</button></div></div>
+        </div>
+    </div>
+    <div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ PDF ═══ -->
+<div id="page-pdf" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">PDF Tools</h2>
+    <p class="tool-subtitle">Create, merge, watermark, and convert images to PDF — all in your browser.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="tabs"><button class="tab on" onclick="pdfTab('create',this)">Create PDF</button><button class="tab" onclick="pdfTab('merge',this)">Merge</button><button class="tab" onclick="pdfTab('watermark',this)">Watermark</button><button class="tab" onclick="pdfTab('images',this)">Images → PDF</button></div>
+    <div class="card">
+        <div id="pt-create" class="tc on"><div class="card-label">Create from Text</div><div class="fld"><label class="lbl">Title</label><input class="inp inp-dm" id="pdf-title" placeholder="My Document"></div><div class="fld"><label class="lbl">Content</label><textarea id="pdf-body" placeholder="Type or paste text..." style="min-height:220px;font-family:'Inter',sans-serif"></textarea></div><div class="fld"><label class="lbl">Font Size</label><select id="pdf-fs"><option value="10">10pt</option><option value="12" selected>12pt</option><option value="14">14pt</option><option value="16">16pt</option></select></div><div class="btns"><button class="btn btn1" onclick="pdfCreate()">📄 Create PDF</button></div></div>
+        <div id="pt-merge" class="tc"><div class="card-label">Merge PDFs</div><div class="fdrop" onclick="$('pdf-mf').click()"><div class="fdrop-i">📄📄</div><p>Drop PDFs here or click</p></div><input type="file" id="pdf-mf" accept=".pdf" multiple style="display:none" onchange="pdfMergeLoad(this)"><div id="pdf-ml" style="margin-top:10px"></div><div class="btns"><button class="btn btn1" onclick="pdfMerge()">🔗 Merge</button></div></div>
+        <div id="pt-watermark" class="tc"><div class="card-label">Add Watermark</div><div class="fdrop" onclick="$('pdf-wf').click()"><div class="fdrop-i">📄</div><p>Drop PDF here or click</p></div><input type="file" id="pdf-wf" accept=".pdf" style="display:none" onchange="pdfWMLoad(this)"><div class="fld" style="margin-top:10px"><label class="lbl">Text</label><input class="inp inp-dm" id="pdf-wt" value="DRAFT" placeholder="CONFIDENTIAL"></div><div class="btns"><button class="btn btn1" onclick="pdfWM()">💧 Watermark</button></div></div>
+        <div id="pt-images" class="tc"><div class="card-label">Images → PDF</div><div class="fdrop" onclick="$('pdf-if').click()"><div class="fdrop-i">🖼</div><p>Drop images here (PNG/JPG)</p></div><input type="file" id="pdf-if" accept="image/png,image/jpeg" multiple style="display:none" onchange="pdfImgLoad(this)"><div id="pdf-il" style="margin-top:10px"></div><div class="btns"><button class="btn btn1" onclick="pdfImg()">📄 Create PDF</button></div></div>
+    </div>
+    <div class="stat" id="pdf-stat"><div class="dot"></div><span>Ready</span></div>
+    <div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ IMAGE COMPRESS ═══ -->
+<div id="page-imgcompress" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">Image Compressor</h2>
+    <p class="tool-subtitle">Compress & resize images privately. Nothing leaves your device.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="grid2">
+        <div class="card"><div class="card-label">Upload</div><div class="fdrop" onclick="$('ic-f').click()"><div class="fdrop-i">🖼</div><p>Drop image or click</p></div><input type="file" id="ic-f" accept="image/*" style="display:none" onchange="icLoad(this)"><div class="fld" style="margin-top:12px"><label class="lbl">Quality</label><div class="srow"><input type="range" id="ic-q" min="10" max="100" value="70" oninput="$('ic-qv').textContent=this.value+'%'"><span class="sval" id="ic-qv">70%</span></div></div><div class="fld"><label class="lbl">Max Width (0 = no resize)</label><input class="inp" type="number" id="ic-mw" value="0"></div><div class="fld"><label class="lbl">Format</label><select id="ic-fmt"><option value="image/jpeg">JPEG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select></div><div class="btns"><button class="btn btn1" onclick="icCompress()">📦 Compress</button><button class="btn btn2" onclick="icDL()">↓ Download</button></div></div>
+        <div class="card"><div class="card-label">Result</div><div id="ic-prev" style="text-align:center;min-height:150px;display:flex;align-items:center;justify-content:center;color:var(--t3);font-size:12px">Upload image</div><div class="stat" id="ic-stat"><div class="dot"></div><span>Ready</span></div></div>
+    </div><div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ CALCULATOR ═══ -->
+<div id="page-calc" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">Scientific Calculator</h2>
+    <p class="tool-subtitle">Basic and scientific calculations.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="grid2">
+        <div class="card">
+            <div class="calc-display"><div class="calc-expr" id="calc-expr">&nbsp;</div><div class="calc-val" id="calc-val">0</div></div>
+            <div class="calc-grid">
+                <button class="calc-btn calc-fn" onclick="cBtn('sin(')">sin</button>
+                <button class="calc-btn calc-fn" onclick="cBtn('cos(')">cos</button>
+                <button class="calc-btn calc-fn" onclick="cBtn('tan(')">tan</button>
+                <button class="calc-btn calc-fn" onclick="cBtn('sqrt(')">√</button>
+                <button class="calc-btn calc-fn" onclick="cBtn('log(')">log</button>
+                <button class="calc-btn calc-fn" onclick="cBtn('ln(')">ln</button>
+                <button class="calc-btn calc-fn" onclick="cBtn('**')">x^y</button>
+                <button class="calc-btn calc-fn" onclick="cBtn('Math.PI')">π</button>
+                <button class="calc-btn calc-fn" onclick="cClear()">C</button>
+                <button class="calc-btn calc-fn" onclick="cBtn('(')">(</button>
+                <button class="calc-btn calc-fn" onclick="cBtn(')')">)</button>
+                <button class="calc-btn calc-op" onclick="cBtn('/')">÷</button>
+                <button class="calc-btn calc-num" onclick="cBtn('7')">7</button>
+                <button class="calc-btn calc-num" onclick="cBtn('8')">8</button>
+                <button class="calc-btn calc-num" onclick="cBtn('9')">9</button>
+                <button class="calc-btn calc-op" onclick="cBtn('*')">×</button>
+                <button class="calc-btn calc-num" onclick="cBtn('4')">4</button>
+                <button class="calc-btn calc-num" onclick="cBtn('5')">5</button>
+                <button class="calc-btn calc-num" onclick="cBtn('6')">6</button>
+                <button class="calc-btn calc-op" onclick="cBtn('-')">−</button>
+                <button class="calc-btn calc-num" onclick="cBtn('1')">1</button>
+                <button class="calc-btn calc-num" onclick="cBtn('2')">2</button>
+                <button class="calc-btn calc-num" onclick="cBtn('3')">3</button>
+                <button class="calc-btn calc-op" onclick="cBtn('+')">+</button>
+                <button class="calc-btn calc-num" onclick="cBtn('0')">0</button>
+                <button class="calc-btn calc-num" onclick="cBtn('.')">.</button>
+                <button class="calc-btn calc-fn" onclick="cBack()">⌫</button>
+                <button class="calc-btn calc-eq" onclick="cEval()">=</button>
+            </div>
+        </div>
+        <div class="card"><div class="card-label">History</div><div id="calc-hist" style="font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--t3);min-height:200px;max-height:400px;overflow-y:auto"></div></div>
+    </div>
+    <div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ CALENDAR ═══ -->
+<div id="page-calendar" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">Calendar & Planner</h2>
+    <p class="tool-subtitle">Monthly calendar with notes. Click a day to add notes.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="grid2">
+        <div class="card">
+            <div class="cal-header">
+                <button class="cal-nav" onclick="calNav(-1)">◀</button>
+                <div class="cal-title" id="cal-title"></div>
+                <button class="cal-nav" onclick="calNav(1)">▶</button>
+            </div>
+            <div class="cal-grid" id="cal-grid"></div>
+        </div>
+        <div class="card">
+            <div class="card-label" id="cal-note-date">Select a day</div>
+            <textarea id="cal-note" placeholder="Write your notes for this day..." style="min-height:200px;font-family:'Inter',sans-serif" oninput="calSaveNote()"></textarea>
+            <div class="btns"><button class="btn btn2" onclick="calClearNote()">Clear Note</button><button class="btn btn1" onclick="calToday()">Today</button></div>
+        </div>
+    </div>
+    <div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ GPA ═══ -->
+<div id="page-gpa" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">GPA Calculator</h2>
+    <p class="tool-subtitle">Add your courses, credits, and grades to calculate your GPA.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="grid2">
+        <div class="card">
+            <div class="card-label">Courses</div>
+            <div style="display:grid;grid-template-columns:1fr 80px 100px 36px;gap:6px;margin-bottom:6px;font-size:10px;font-weight:600;color:var(--t3);text-transform:uppercase;letter-spacing:.5px;padding:0 0 4px"><span>Course</span><span>Credits</span><span>Grade</span><span></span></div>
+            <div id="gpa-rows">
+                <div class="gpa-row"><input class="inp inp-dm" placeholder="Course name"><input class="inp" type="number" value="3" min="1" max="12"><select onchange="gpaCalc()"><option value="4.0">A</option><option value="3.7">A-</option><option value="3.3">B+</option><option value="3.0" selected>B</option><option value="2.7">B-</option><option value="2.3">C+</option><option value="2.0">C</option><option value="1.7">C-</option><option value="1.3">D+</option><option value="1.0">D</option><option value="0.0">F</option></select><button class="rm-btn" onclick="gpaRm(this)">×</button></div>
+                <div class="gpa-row"><input class="inp inp-dm" placeholder="Course name"><input class="inp" type="number" value="3" min="1" max="12"><select onchange="gpaCalc()"><option value="4.0">A</option><option value="3.7">A-</option><option value="3.3" selected>B+</option><option value="3.0">B</option><option value="2.7">B-</option><option value="2.3">C+</option><option value="2.0">C</option><option value="1.7">C-</option><option value="1.3">D+</option><option value="1.0">D</option><option value="0.0">F</option></select><button class="rm-btn" onclick="gpaRm(this)">×</button></div>
+            </div>
+            <div class="btns"><button class="btn btn2" onclick="gpaAdd()">+ Add Course</button><button class="btn btn1" onclick="gpaCalc()">Calculate</button></div>
+        </div>
+        <div class="card">
+            <div class="gpa-result"><div class="gpa-num" id="gpa-val">0.00</div><div class="gpa-label">Semester GPA</div></div>
+            <div style="margin-top:16px">
+                <div class="card-label">Summary</div>
+                <div id="gpa-summary" style="font-size:13px;color:var(--t2);line-height:1.8"></div>
+            </div>
+        </div>
+    </div>
+    <div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ POMODORO ═══ -->
+<div id="page-pomodoro" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">Pomodoro Timer</h2>
+    <p class="tool-subtitle">Stay focused with timed work sessions and breaks.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div style="max-width:380px;margin:0 auto">
+        <div class="card" style="text-align:center">
+            <div class="tabs" style="margin-bottom:16px">
+                <button class="tab on" onclick="pomoMode('work',this)">Work</button>
+                <button class="tab" onclick="pomoMode('short',this)">Short Break</button>
+                <button class="tab" onclick="pomoMode('long',this)">Long Break</button>
+            </div>
+            <div class="pomo-circle">
+                <svg class="pomo-ring" viewBox="0 0 200 200"><circle class="bg" cx="100" cy="100" r="90"/><circle class="fg" id="pomo-fg" cx="100" cy="100" r="90" stroke-dasharray="565.5" stroke-dashoffset="0" transform="rotate(-90 100 100)"/></svg>
+                <div class="pomo-time" id="pomo-time">25:00</div>
+            </div>
+            <div class="pomo-label" id="pomo-label">Focus Time</div>
+            <div class="btns" style="justify-content:center"><button class="btn btn1" id="pomo-btn" onclick="pomoToggle()">▶ Start</button><button class="btn btn2" onclick="pomoReset()">⟳ Reset</button></div>
+            <div style="margin-top:16px;font-size:12px;color:var(--t3)">Sessions: <strong id="pomo-count" style="color:var(--accent)">0</strong></div>
+        </div>
+        <div class="card" style="margin-top:12px">
+            <div class="card-label">Settings</div>
+            <div class="fld"><label class="lbl">Work (min)</label><input class="inp" type="number" id="pomo-work-min" value="25" min="1" max="120" onchange="pomoReset()"></div>
+            <div class="fld"><label class="lbl">Short Break (min)</label><input class="inp" type="number" id="pomo-short-min" value="5" min="1" max="30" onchange="pomoReset()"></div>
+            <div class="fld"><label class="lbl">Long Break (min)</label><input class="inp" type="number" id="pomo-long-min" value="15" min="1" max="60" onchange="pomoReset()"></div>
+        </div>
+    </div>
+    <div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ NOTEPAD ═══ -->
+<div id="page-notepad" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">Notepad</h2>
+    <p class="tool-subtitle">Quick notes — auto-saved in your browser.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="card">
+        <textarea class="notepad" id="notepad-text" placeholder="Start typing your notes here..." oninput="npSave()"></textarea>
+        <div class="btns"><button class="btn btn2" onclick="npCopy()">⎘ Copy All</button><button class="btn btn2" onclick="npDL()">↓ Download .txt</button><button class="btn btn2" onclick="npClear()" style="color:var(--red)">🗑 Clear</button></div>
+        <div class="stat" id="np-stat"><div class="dot"></div><span>Auto-saved</span></div>
+    </div>
+    <div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ UNIT CONVERTER ═══ -->
+<div id="page-units" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">Unit Converter</h2>
+    <p class="tool-subtitle">Convert between length, weight, temperature, volume and more.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div style="max-width:500px">
+        <div class="card">
+            <div class="fld"><label class="lbl">Category</label><select id="uc-cat" onchange="ucCatChange()"><option value="length">Length</option><option value="weight">Weight</option><option value="temp">Temperature</option><option value="volume">Volume</option><option value="area">Area</option><option value="speed">Speed</option><option value="data">Data</option><option value="time">Time</option></select></div>
+            <div class="grid2">
+                <div class="fld"><label class="lbl">From</label><select id="uc-from" onchange="ucConvert()"></select><input class="inp" type="number" id="uc-val" value="1" oninput="ucConvert()" style="margin-top:6px"></div>
+                <div class="fld"><label class="lbl">To</label><select id="uc-to" onchange="ucConvert()"></select><input class="inp" type="text" id="uc-result" readonly style="margin-top:6px;cursor:pointer;font-weight:700" onclick="copyText(this.value)"></div>
+            </div>
+        </div>
+    </div>
+    <div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ JSON ═══ -->
+<div id="page-json" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">JSON Formatter & Validator</h2>
+    <p class="tool-subtitle">Beautify, minify, or validate JSON data.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="grid2">
+        <div class="card"><div class="card-label">Input</div><textarea id="j-in" placeholder='{"name":"QuickTools","tools":20}'></textarea><div class="btns"><button class="btn btn1" onclick="jFmt()">{ } Beautify</button><button class="btn btn2" onclick="jMin()">⟨⟩ Minify</button><button class="btn btn2" onclick="jVal()">✓ Validate</button><button class="btn btn2" onclick="cpOut('j-out')">⎘ Copy</button></div></div>
+        <div class="card"><div class="card-label">Output</div><div class="out" id="j-out" style="color:var(--accent)">Paste JSON and click Beautify</div><div class="stat" id="j-stat"><div class="dot"></div><span>Ready</span></div></div>
+    </div><div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ BASE64 ═══ -->
+<div id="page-base64" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">Base64 Converter</h2>
+    <p class="tool-subtitle">Image → Base64 and Base64 → Image.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="grid2">
+        <div class="card"><div class="card-label">Image → Base64</div><div class="fdrop" id="b64-drop" onclick="$('b64-f').click()"><div class="fdrop-i">📁</div><p>Drop image or click</p></div><input type="file" id="b64-f" accept="image/*" style="display:none" onchange="b64Enc(this)"><div class="btns"><button class="btn btn2" onclick="cpOut('b64-out')">⎘ Copy</button></div></div>
+        <div class="card"><div class="card-label">Output</div><div class="out" id="b64-out" style="font-size:10px">Base64 appears here...</div><div class="stat" id="b64-stat"><div class="dot"></div><span>Ready</span></div></div>
+    </div>
+    <div class="card" style="margin-top:12px"><div class="card-label">Base64 → Image</div><textarea id="b64-dec" placeholder="Paste Base64..." style="min-height:70px"></textarea><div class="btns"><button class="btn btn1" onclick="b64Dec()">🖼 Decode</button></div><div id="b64-img" style="margin-top:12px;text-align:center"></div></div>
+    <div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ HASH ═══ -->
+<div id="page-hash" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">Hash Generator</h2>
+    <p class="tool-subtitle">SHA-256, SHA-512, SHA-1 from text or files.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="grid2">
+        <div class="card"><div class="card-label">Input</div><textarea id="h-in" placeholder="Text to hash..." oninput="hGen()"></textarea><div style="margin-top:10px"><div class="card-label">Or File</div><div class="fdrop" onclick="$('h-f').click()" style="padding:18px"><p>Drop file or click</p></div><input type="file" id="h-f" style="display:none" onchange="hFile(this)"></div></div>
+        <div class="card"><div class="card-label">Hashes (click to copy)</div><div class="fld"><label class="lbl">SHA-256</label><input class="inp" id="h-256" readonly onclick="copyText(this.value)" style="cursor:pointer"></div><div class="fld"><label class="lbl">SHA-512</label><input class="inp" id="h-512" readonly onclick="copyText(this.value)" style="cursor:pointer;font-size:10px"></div><div class="fld"><label class="lbl">SHA-1</label><input class="inp" id="h-1" readonly onclick="copyText(this.value)" style="cursor:pointer"></div></div>
+    </div><div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ MARKDOWN ═══ -->
+<div id="page-markdown" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">Markdown Preview</h2>
+    <p class="tool-subtitle">Write Markdown, see rendered HTML live.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="grid2">
+        <div class="card"><div class="card-label">Markdown</div><textarea id="md-in" oninput="mdRender()" style="font-family:'JetBrains Mono',monospace;min-height:300px"># Hello World
+
+This is **bold** and *italic*.
+
+## Features
+- Live preview
+- Tables & code
+
+```js
+console.log("QuickTools!");
+```
+
+> Blockquote
+
+| Name | Price |
+|------|-------|
+| Item | $10   |</textarea></div>
+        <div class="card"><div class="card-label">Preview</div><div class="md-prev" id="md-out"></div></div>
+    </div>
+    <div class="btns"><button class="btn btn2" onclick="cpOut('md-out')">⎘ Copy HTML</button></div>
+    <div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ TIMESTAMP ═══ -->
+<div id="page-timestamp" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">Timestamp Converter</h2>
+    <p class="tool-subtitle">Unix timestamp ↔ human date.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="card" style="text-align:center;padding:24px"><div class="card-label">Current Unix Timestamp</div><div id="ts-live" style="font-size:32px;font-weight:800;font-family:'JetBrains Mono',monospace;cursor:pointer" onclick="copyText(this.textContent)"></div><p style="font-size:11px;color:var(--t3);margin-top:4px">Click to copy • Live</p></div>
+    <div class="grid2" style="margin-top:12px">
+        <div class="card"><div class="card-label">Timestamp → Date</div><div class="fld"><label class="lbl">Timestamp</label><input class="inp" id="ts-in" placeholder="1700000000" oninput="ts2d()"></div><div class="fld"><label class="lbl">Result</label><input class="inp inp-dm" id="ts-dout" readonly onclick="copyText(this.value)" style="cursor:pointer"></div></div>
+        <div class="card"><div class="card-label">Date → Timestamp</div><div class="fld"><label class="lbl">Date</label><input class="inp inp-dm" id="ts-din" placeholder="2025-01-15 12:00:00" oninput="d2ts()"></div><div class="fld"><label class="lbl">Timestamp</label><input class="inp" id="ts-tout" readonly onclick="copyText(this.value)" style="cursor:pointer"></div></div>
+    </div><div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ URL ENCODE ═══ -->
+<div id="page-urlenc" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">URL Encoder / Decoder</h2>
+    <p class="tool-subtitle">Encode or decode URLs and query params.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="grid2">
+        <div class="card"><div class="card-label">Input</div><textarea id="ue-in" placeholder="Enter URL or text..." style="min-height:100px"></textarea><div class="btns"><button class="btn btn1" onclick="ueEnc()">Encode</button><button class="btn btn2" onclick="ueDec()">Decode</button></div></div>
+        <div class="card"><div class="card-label">Output</div><div class="out" id="ue-out" style="min-height:100px"></div><div class="btns"><button class="btn btn2" onclick="cpOut('ue-out')">⎘ Copy</button></div></div>
+    </div><div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ COLOR ═══ -->
+<div id="page-color" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">Color Picker & Converter</h2>
+    <p class="tool-subtitle">Pick colors, convert HEX/RGB/HSL. Click to copy.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="grid2">
+        <div class="card"><div class="card-label">Pick</div><div class="cprev" id="c-prev" style="background:#10b981"></div><input type="color" id="c-pick" value="#10b981" style="width:100%;height:44px;cursor:pointer;border:none;padding:0;border-radius:var(--rs)" oninput="cUpdate(this.value)"><div class="cgrid" style="margin-top:12px"><div><label class="lbl">HEX</label><input class="inp" id="c-hex" value="#10b981" oninput="cFromHex(this.value)" onclick="copyText(this.value)"></div><div><label class="lbl">RGB</label><input class="inp" id="c-rgb" readonly onclick="copyText(this.value)"></div><div><label class="lbl">HSL</label><input class="inp" id="c-hsl" readonly onclick="copyText(this.value)"></div><div><label class="lbl">CSS</label><input class="inp" id="c-css" readonly onclick="copyText(this.value)"></div></div></div>
+        <div class="card"><div class="card-label">Palette</div><div id="c-pal" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px"></div><div class="card-label" style="margin-top:16px">Shades</div><div id="c-shd" style="display:grid;grid-template-columns:repeat(5,1fr);gap:6px"></div></div>
+    </div><div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ WORD COUNTER ═══ -->
+<div id="page-word" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">Word & Character Counter</h2>
+    <p class="tool-subtitle">Live stats as you type.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="card"><div class="card-label">Text</div><textarea id="w-in" placeholder="Start typing..." style="min-height:200px;font-family:'Inter',sans-serif" oninput="wCount()"></textarea></div>
+    <div class="wstats"><div class="wstat"><div class="wstat-n" id="w-w">0</div><div class="wstat-l">Words</div></div><div class="wstat"><div class="wstat-n" id="w-c">0</div><div class="wstat-l">Chars</div></div><div class="wstat"><div class="wstat-n" id="w-cn">0</div><div class="wstat-l">No Space</div></div><div class="wstat"><div class="wstat-n" id="w-s">0</div><div class="wstat-l">Sentences</div></div><div class="wstat"><div class="wstat-n" id="w-p">0</div><div class="wstat-l">Paragraphs</div></div><div class="wstat"><div class="wstat-n" id="w-r">0s</div><div class="wstat-l">Read Time</div></div></div>
+    <div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ PASSWORD ═══ -->
+<div id="page-password" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">Password Generator</h2>
+    <p class="tool-subtitle">Crypto-secure passwords.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="grid2">
+        <div class="card"><div class="card-label">Password</div><div class="pw-box" id="pw-box">Click Generate</div><div class="str-bar"><div class="str-fill" id="pw-sf"></div></div><div class="stat" id="pw-str"><span>Strength: —</span></div><div class="btns"><button class="btn btn1" onclick="pwGen()">⟳ Generate</button><button class="btn btn2" onclick="copyText($('pw-box').textContent)">⎘ Copy</button></div></div>
+        <div class="card"><div class="card-label">Options</div><label style="font-size:12px;color:var(--t2)">Length</label><div class="srow"><input type="range" id="pw-len" min="4" max="64" value="16" oninput="$('pw-lv').textContent=this.value;pwGen()"><span class="sval" id="pw-lv">16</span></div><label class="chk"><input type="checkbox" id="pw-up" checked onchange="pwGen()"> Uppercase A-Z</label><label class="chk"><input type="checkbox" id="pw-lo" checked onchange="pwGen()"> Lowercase a-z</label><label class="chk"><input type="checkbox" id="pw-nm" checked onchange="pwGen()"> Numbers 0-9</label><label class="chk"><input type="checkbox" id="pw-sy" checked onchange="pwGen()"> Symbols</label><label class="chk"><input type="checkbox" id="pw-na" onchange="pwGen()"> No ambiguous</label></div>
+    </div><div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ TEXT CASE ═══ -->
+<div id="page-textcase" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">Text Case Converter</h2>
+    <p class="tool-subtitle">UPPER, lower, Title, camelCase, snake_case, kebab-case.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="card"><div class="card-label">Text</div><textarea id="tc-in" placeholder="Type or paste..." style="min-height:100px;font-family:'Inter',sans-serif"></textarea><div class="btns"><button class="btn btn1" onclick="tcConv('upper')">UPPER</button><button class="btn btn2" onclick="tcConv('lower')">lower</button><button class="btn btn2" onclick="tcConv('title')">Title</button><button class="btn btn2" onclick="tcConv('sentence')">Sentence</button><button class="btn btn2" onclick="tcConv('camel')">camelCase</button><button class="btn btn2" onclick="tcConv('snake')">snake_case</button><button class="btn btn2" onclick="tcConv('kebab')">kebab-case</button><button class="btn btn2" onclick="tcConv('toggle')">tOGGLE</button></div></div>
+    <div class="card" style="margin-top:12px"><div class="card-label">Result</div><div class="out" id="tc-out" style="min-height:70px"></div><div class="btns"><button class="btn btn2" onclick="cpOut('tc-out')">⎘ Copy</button></div></div>
+    <div class="ad"><!-- Ad --></div>
+</div>
+
+<!-- ═══ LOREM ═══ -->
+<div id="page-lorem" class="page">
+    <button class="tool-back" onclick="goHome()">← Home</button>
+    <h2 class="tool-title">Lorem Ipsum Generator</h2>
+    <p class="tool-subtitle">Placeholder text for designs.</p>
+    <div class="ad"><!-- Ad --></div>
+    <div class="grid2">
+        <div class="card"><div class="card-label">Options</div><div class="fld"><label class="lbl">Amount</label><div class="srow"><input type="range" id="lo-n" min="1" max="20" value="3" oninput="$('lo-nv').textContent=this.value;loGen()"><span class="sval" id="lo-nv">3</span></div></div><div class="fld"><label class="lbl">Type</label><select id="lo-t" onchange="loGen()"><option value="p">Paragraphs</option><option value="s">Sentences</option><option value="w">Words</option></select></div><div class="btns"><button class="btn btn1" onclick="loGen()">Generate</button><button class="btn btn2" onclick="cpOut('lo-out')">⎘ Copy</button></div></div>
+        <div class="card"><div class="card-label">Output</div><div class="out" id="lo-out" style="font-family:'Inter',sans-serif;white-space:pre-wrap;word-break:normal"></div></div>
+    </div><div class="ad"><!-- Ad --></div>
+</div>
+
+<footer>
+    <p>&copy; 2025 QuickTools &mdash; <a href="https://www.quicktools.sbs">www.quicktools.sbs</a> &mdash; Free Online Tools. All tools run locally. No data collected.</p>
+</footer>
+
+</div><!-- content -->
+</div><!-- main -->
+</div><!-- app -->
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+/* ═══ HELPERS ═══ */
+const $=id=>document.getElementById(id);
+function toast(m='Copied!'){const t=$('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
+function copyText(t){navigator.clipboard.writeText(t).then(()=>toast())}
+function cpOut(id){copyText($(id).textContent||$(id).innerText)}
+function dlBlob(d,n,t){const b=new Blob([d],{type:t}),u=URL.createObjectURL(b),a=document.createElement('a');a.href=u;a.download=n;a.click();URL.revokeObjectURL(u);toast('Downloaded!')}
+
+/* ═══ NAV ═══ */
+const TOOLS=['qr','pdf','imgcompress','calc','calendar','gpa','pomodoro','notepad','units','json','base64','hash','markdown','timestamp','urlenc','color','word','password','textcase','lorem'];
+const TITLES={home:'Home',qr:'QR Code Suite',pdf:'PDF Tools',imgcompress:'Image Compressor',calc:'Calculator',calendar:'Calendar',gpa:'GPA Calculator',pomodoro:'Pomodoro Timer',notepad:'Notepad',units:'Unit Converter',json:'JSON Formatter',base64:'Base64 Converter',hash:'Hash Generator',markdown:'Markdown Preview',timestamp:'Timestamp',urlenc:'URL Encode',color:'Color Picker',word:'Word Counter',password:'Password Generator',textcase:'Text Case',lorem:'Lorem Ipsum'};
+
+function goHome(){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));$('page-home').classList.add('active');document.querySelectorAll('.sidebar-item').forEach(s=>s.classList.remove('active'));$('topbar-title').textContent='Home';window.scrollTo(0,0);history.pushState(null,'',window.location.pathname);closeSidebar()}
+
+function go(t){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));const el=$('page-'+t);if(el)el.classList.add('active');document.querySelectorAll('.sidebar-item').forEach(s=>s.classList.remove('active'));const si=document.querySelector(`[data-tool="${t}"]`);if(si)si.classList.add('active');$('topbar-title').textContent=TITLES[t]||t;window.scrollTo(0,0);window.location.hash=t;closeSidebar();
+if(t==='qr')makeQR();if(t==='color')cUpdate('#10b981');if(t==='password')pwGen();if(t==='markdown')mdRender();if(t==='lorem')loGen();if(t==='timestamp')tsStart();if(t==='calendar')calRender();if(t==='units')ucCatChange();if(t==='notepad')npLoad();if(t==='gpa')gpaCalc()}
+
+function handleHash(){const h=window.location.hash.replace('#','');if(TOOLS.includes(h))go(h);else goHome()}
+window.addEventListener('hashchange',handleHash);handleHash();
+
+function toggleSidebar(){$('sidebar').classList.toggle('open');$('overlay').classList.toggle('open')}
+function closeSidebar(){$('sidebar').classList.remove('open');$('overlay').classList.remove('open')}
+
+/* ═══ QR SUITE ═══ */
+let qrMode='url';
+function qrTab(t,btn){qrMode=t;document.querySelectorAll('#page-qr .tab').forEach(x=>x.classList.remove('on'));document.querySelectorAll('#page-qr .tc').forEach(x=>x.classList.remove('on'));btn.classList.add('on');$('qt-'+t).classList.add('on');$('pl-prev-card').style.display=t==='pricelist'?'block':'none';if(t==='pricelist')plUpdate();makeQR()}
+function qrData(){switch(qrMode){case'url':return $('qr-url').value.trim()||'https://quicktools.sbs';case'wifi':return`WIFI:T:${$('qr-wenc').value};S:${$('qr-wssid').value};P:${$('qr-wpass').value};;`;case'vcard':return`BEGIN:VCARD\nVERSION:3.0\nFN:${$('qr-vn').value}\nTEL:${$('qr-vp').value}\nEMAIL:${$('qr-ve').value}\nORG:${$('qr-vo').value}\nURL:${$('qr-vu').value}\nEND:VCARD`;case'email':return`mailto:${$('qr-eto').value}?subject=${encodeURIComponent($('qr-esub').value)}&body=${encodeURIComponent($('qr-ebody').value)}`;case'sms':{const p=$('qr-sph').value,m=$('qr-smsg').value;return $('qr-stype').value==='tel'?`tel:${p}`:`sms:${p}${m?'?body='+encodeURIComponent(m):''}`}case'pricelist':return plText();default:return'https://quicktools.sbs'}}
+function plText(){const b=$('pl-name').value||'My Business',d=$('pl-desc').value,c=$('pl-cur').value||'';let t=b+'\n';if(d)t+=d+'\n';t+='----------\n';document.querySelectorAll('#pl-items .price-row').forEach(r=>{const n=r.children[0].value,p=r.children[1].value;if(n&&p)t+=`${n}: ${c} ${p}\n`});return t}
+function makeQR(){const d=qrData(),c=$('qr-out');c.innerHTML='';if(!d)return;try{new QRCode(c,{text:d,width:240,height:240,colorDark:'#000',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.H})}catch(e){c.innerHTML='<p style="color:var(--red);font-size:12px">Data too large</p>'}}
+function dlQR(){const c=document.querySelector('#qr-out canvas');if(!c)return toast('Generate first');const a=document.createElement('a');a.download='qr-code.png';a.href=c.toDataURL('image/png');a.click();toast('Downloaded!')}
+function plAdd(){const c=$('pl-items'),r=document.createElement('div');r.className='price-row';r.innerHTML='<input class="inp inp-dm" placeholder="Item" oninput="plUpdate()"><input class="inp" placeholder="Price" oninput="plUpdate()"><button class="rm-btn" onclick="plRm(this)">×</button>';c.appendChild(r)}
+function plRm(b){if(document.querySelectorAll('#pl-items .price-row').length>1){b.closest('.price-row').remove();plUpdate()}}
+function plUpdate(){const b=$('pl-name').value||'My Business',d=$('pl-desc').value,c=$('pl-cur').value||'';let h=`<h3>${b}</h3>${d?`<div class="sub">${d}</div>`:''}`;document.querySelectorAll('#pl-items .price-row').forEach(r=>{const n=r.children[0].value,p=r.children[1].value;if(n||p)h+=`<div class="pl"><span>${n||'—'}</span><span style="font-weight:700">${c} ${p||'0'}</span></div>`});$('pl-prev').innerHTML=h;makeQR()}
+function dlPL(){const cv=document.createElement('canvas');cv.width=600;cv.height=Math.max(350,110+document.querySelectorAll('#pl-items .price-row').length*35);const x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,cv.width,cv.height);x.fillStyle='#000';x.font='bold 26px Inter,sans-serif';x.fillText($('pl-name').value||'My Business',40,48);let y=68;const d=$('pl-desc').value;if(d){x.font='13px Inter,sans-serif';x.fillStyle='#666';x.fillText(d,40,y);y+=24}x.strokeStyle='#ddd';x.beginPath();x.moveTo(40,y);x.lineTo(560,y);x.stroke();y+=22;const c=$('pl-cur').value||'';x.font='15px Inter,sans-serif';document.querySelectorAll('#pl-items .price-row').forEach(r=>{const n=r.children[0].value,p=r.children[1].value;if(n&&p){x.fillStyle='#333';x.textAlign='left';x.fillText(n,40,y);x.fillStyle='#000';x.font='bold 15px Inter,sans-serif';x.textAlign='right';x.fillText(`${c} ${p}`,560,y);x.font='15px Inter,sans-serif';x.textAlign='left';y+=32}});const a=document.createElement('a');a.download='price-list.png';a.href=cv.toDataURL('image/png');a.click();toast('Downloaded!')}
+
+/* ═══ PDF ═══ */
+let pdfMF=[],pdfWF=null,pdfIF=[];
+function pdfTab(t,btn){document.querySelectorAll('#page-pdf .tab').forEach(x=>x.classList.remove('on'));document.querySelectorAll('#page-pdf .tc').forEach(x=>x.classList.remove('on'));btn.classList.add('on');$('pt-'+t).classList.add('on')}
+function pdfStat(m){$('pdf-stat').innerHTML=`<div class="dot"></div><span>${m}</span>`}
+async function pdfCreate(){const{PDFDocument,rgb,StandardFonts}=PDFLib;const doc=await PDFDocument.create();const f=await doc.embedFont(StandardFonts.Helvetica);const bf=await doc.embedFont(StandardFonts.HelveticaBold);const t=$('pdf-title').value,ct=$('pdf-body').value,fs=+$('pdf-fs').value;let pg=doc.addPage([595,842]),y=800;if(t){pg.drawText(t,{x:50,y,font:bf,size:22,color:rgb(0,0,0)});y-=36}for(const ln of ct.split('\n')){const ws=ln.split(' ');let cl='';for(const w of ws){const tt=cl?cl+' '+w:w;if(f.widthOfTextAtSize(tt,fs)>495&&cl){if(y<60){pg=doc.addPage([595,842]);y=800}pg.drawText(cl,{x:50,y,font:f,size:fs,color:rgb(0,0,0)});y-=fs*1.5;cl=w}else cl=tt}if(cl){if(y<60){pg=doc.addPage([595,842]);y=800}pg.drawText(cl,{x:50,y,font:f,size:fs,color:rgb(0,0,0)});y-=fs*1.5}else y-=fs}dlBlob(await doc.save(),'document.pdf','application/pdf');pdfStat('PDF created!')}
+function pdfMergeLoad(i){pdfMF=Array.from(i.files);$('pdf-ml').innerHTML=pdfMF.map((f,i)=>`<div style="padding:4px 0;font-size:12px;color:var(--t2)">${i+1}. ${f.name}</div>`).join('')}
+async function pdfMerge(){if(pdfMF.length<2)return toast('Select 2+ PDFs');const{PDFDocument}=PDFLib;const m=await PDFDocument.create();for(const f of pdfMF){const s=await PDFDocument.load(await f.arrayBuffer());(await m.copyPages(s,s.getPageIndices())).forEach(p=>m.addPage(p))}dlBlob(await m.save(),'merged.pdf','application/pdf');pdfStat(`Merged ${pdfMF.length} PDFs!`)}
+function pdfWMLoad(i){pdfWF=i.files[0];pdfStat('Loaded: '+pdfWF.name)}
+async function pdfWM(){if(!pdfWF)return toast('Upload PDF');const{PDFDocument,rgb,StandardFonts,degrees}=PDFLib;const doc=await PDFDocument.load(await pdfWF.arrayBuffer());const f=await doc.embedFont(StandardFonts.HelveticaBold);doc.getPages().forEach(p=>{const{width,height}=p.getSize();p.drawText($('pdf-wt').value||'DRAFT',{x:width/2-100,y:height/2-20,size:60,font:f,color:rgb(.9,.1,.1),opacity:.15,rotate:degrees(-45)})});dlBlob(await doc.save(),'watermarked.pdf','application/pdf');pdfStat('Done!')}
+function pdfImgLoad(i){pdfIF=Array.from(i.files);$('pdf-il').innerHTML=pdfIF.map((f,i)=>`<div style="padding:4px 0;font-size:12px;color:var(--t2)">${i+1}. ${f.name}</div>`).join('')}
+async function pdfImg(){if(!pdfIF.length)return toast('Select images');const{PDFDocument}=PDFLib;const doc=await PDFDocument.create();for(const f of pdfIF){const b=await f.arrayBuffer();const img=f.type==='image/png'?await doc.embedPng(b):await doc.embedJpg(b);const d=img.scale(1);doc.addPage([d.width,d.height]).drawImage(img,{x:0,y:0,width:d.width,height:d.height})}dlBlob(await doc.save(),'images.pdf','application/pdf');pdfStat(`${pdfIF.length} pages!`)}
+
+/* ═══ IMAGE COMPRESS ═══ */
+let icBlob=null,icOrig=null;
+function icLoad(i){icOrig=i.files[0];if(icOrig)icCompress()}
+function icCompress(){if(!icOrig)return toast('Upload first');const q=+$('ic-q').value/100,mw=+$('ic-mw').value||0,fmt=$('ic-fmt').value;const img=new Image();img.onload=()=>{const cv=document.createElement('canvas');let w=img.width,h=img.height;if(mw>0&&w>mw){h=Math.round(h*mw/w);w=mw}cv.width=w;cv.height=h;cv.getContext('2d').drawImage(img,0,0,w,h);cv.toBlob(b=>{icBlob=b;$('ic-prev').innerHTML=`<img src="${URL.createObjectURL(b)}" style="max-width:100%;max-height:280px;border-radius:var(--rs)">`;$('ic-stat').innerHTML=`<div class="dot"></div><span>${(icOrig.size/1024).toFixed(1)}KB → ${(b.size/1024).toFixed(1)}KB (${((1-b.size/icOrig.size)*100).toFixed(0)}% smaller) • ${w}×${h}</span>`},fmt,q)};img.src=URL.createObjectURL(icOrig)}
+function icDL(){if(!icBlob)return toast('Compress first');const ext={'image/jpeg':'.jpg','image/png':'.png','image/webp':'.webp'}[icBlob.type]||'.jpg';const a=document.createElement('a');a.href=URL.createObjectURL(icBlob);a.download='compressed'+ext;a.click();toast('Downloaded!')}
+
+/* ═══ CALCULATOR ═══ */
+let calcExpr='';
+function cBtn(v){calcExpr+=v;$('calc-val').textContent=calcExpr;$('calc-expr').innerHTML='&nbsp;'}
+function cClear(){calcExpr='';$('calc-val').textContent='0';$('calc-expr').innerHTML='&nbsp;'}
+function cBack(){calcExpr=calcExpr.slice(0,-1);$('calc-val').textContent=calcExpr||'0'}
+function cEval(){try{let e=calcExpr.replace(/sin\(/g,'Math.sin(').replace(/cos\(/g,'Math.cos(').replace(/tan\(/g,'Math.tan(').replace(/sqrt\(/g,'Math.sqrt(').replace(/log\(/g,'Math.log10(').replace(/ln\(/g,'Math.log(');const r=new Function('return '+e)();$('calc-expr').textContent=calcExpr+' =';$('calc-val').textContent=Number.isFinite(r)?+r.toFixed(10):r;const h=$('calc-hist');h.innerHTML=`<div style="padding:4px 0;border-bottom:1px solid var(--border)">${calcExpr} = <strong style="color:var(--accent)">${+r.toFixed(10)}</strong></div>`+h.innerHTML;calcExpr=String(+r.toFixed(10))}catch(e){$('calc-val').textContent='Error';calcExpr=''}}
+document.addEventListener('keydown',e=>{if(!$('page-calc').classList.contains('active'))return;if(e.key>='0'&&e.key<='9'||'+-*/.()'.includes(e.key))cBtn(e.key);if(e.key==='Enter')cEval();if(e.key==='Backspace')cBack();if(e.key==='Escape')cClear()})
+
+/* ═══ CALENDAR ═══ */
+let calYear,calMonth,calSelDate='',calNotes={};
+try{calNotes=JSON.parse(localStorage.getItem('qt-cal-notes'))||{}}catch(e){}
+function calInit(){const d=new Date();calYear=d.getFullYear();calMonth=d.getMonth();calRender()}
+function calNav(dir){calMonth+=dir;if(calMonth>11){calMonth=0;calYear++}if(calMonth<0){calMonth=11;calYear--}calRender()}
+function calToday(){const d=new Date();calYear=d.getFullYear();calMonth=d.getMonth();calSelDate=d.toISOString().split('T')[0];calRender();calLoadNote()}
+function calRender(){const months=['January','February','March','April','May','June','July','August','September','October','November','December'];$('cal-title').textContent=`${months[calMonth]} ${calYear}`;const first=new Date(calYear,calMonth,1).getDay();const days=new Date(calYear,calMonth+1,0).getDate();const prevDays=new Date(calYear,calMonth,0).getDate();const today=new Date().toISOString().split('T')[0];let html='';['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].forEach(d=>html+=`<div class="cal-day-name">${d}</div>`);for(let i=0;i<first;i++){const d=prevDays-first+i+1;html+=`<div class="cal-day other">${d}</div>`}for(let d=1;d<=days;d++){const ds=`${calYear}-${String(calMonth+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;const cls=['cal-day'];if(ds===today)cls.push('today');if(ds===calSelDate)cls.push('today');if(calNotes[ds])cls.push('has-note');html+=`<div class="${cls.join(' ')}" onclick="calSelect('${ds}')">${d}</div>`}const total=first+days;for(let i=1;i<=42-total;i++)html+=`<div class="cal-day other">${i}</div>`;$('cal-grid').innerHTML=html}
+function calSelect(ds){calSelDate=ds;calLoadNote();calRender()}
+function calLoadNote(){if(!calSelDate)return;$('cal-note-date').textContent='Notes for '+calSelDate;$('cal-note').value=calNotes[calSelDate]||''}
+function calSaveNote(){if(!calSelDate)return;const v=$('cal-note').value;if(v)calNotes[calSelDate]=v;else delete calNotes[calSelDate];try{localStorage.setItem('qt-cal-notes',JSON.stringify(calNotes))}catch(e){}calRender()}
+function calClearNote(){if(!calSelDate)return;delete calNotes[calSelDate];$('cal-note').value='';try{localStorage.setItem('qt-cal-notes',JSON.stringify(calNotes))}catch(e){}calRender()}
+calInit();
+
+/* ═══ GPA ═══ */
+function gpaAdd(){const c=$('gpa-rows'),r=document.createElement('div');r.className='gpa-row';r.innerHTML='<input class="inp inp-dm" placeholder="Course"><input class="inp" type="number" value="3" min="1" max="12"><select onchange="gpaCalc()"><option value="4.0">A</option><option value="3.7">A-</option><option value="3.3">B+</option><option value="3.0" selected>B</option><option value="2.7">B-</option><option value="2.3">C+</option><option value="2.0">C</option><option value="1.7">C-</option><option value="1.3">D+</option><option value="1.0">D</option><option value="0.0">F</option></select><button class="rm-btn" onclick="gpaRm(this)">×</button>';c.appendChild(r)}
+function gpaRm(b){if(document.querySelectorAll('.gpa-row').length>1)b.closest('.gpa-row').remove();gpaCalc()}
+function gpaCalc(){let tp=0,tc=0;document.querySelectorAll('.gpa-row').forEach(r=>{const cr=parseFloat(r.children[1].value)||0;const gr=parseFloat(r.children[2].value)||0;tp+=cr*gr;tc+=cr});const gpa=tc>0?(tp/tc):0;$('gpa-val').textContent=gpa.toFixed(2);$('gpa-val').style.color=gpa>=3.5?'var(--accent)':gpa>=2.5?'var(--orange)':'var(--red)';let cls='';if(gpa>=3.9)cls='Summa Cum Laude';else if(gpa>=3.7)cls='Magna Cum Laude';else if(gpa>=3.5)cls='Cum Laude';else if(gpa>=3.0)cls='Dean\'s List';else if(gpa>=2.0)cls='Good Standing';else cls='Academic Probation';$('gpa-summary').innerHTML=`Total Credits: <strong>${tc}</strong><br>Total Points: <strong>${tp.toFixed(1)}</strong><br>Classification: <strong style="color:${gpa>=3.0?'var(--accent)':'var(--red)'};">${cls}</strong>`}
+
+/* ═══ POMODORO ═══ */
+let pomoInt=null,pomoSec=25*60,pomoTotal=25*60,pomoRunning=false,pomoSessions=0,pomoCurMode='work';
+function pomoMode(m,btn){document.querySelectorAll('#page-pomodoro .tab').forEach(x=>x.classList.remove('on'));btn.classList.add('on');pomoCurMode=m;pomoReset()}
+function pomoReset(){clearInterval(pomoInt);pomoRunning=false;$('pomo-btn').textContent='▶ Start';const mins={work:+$('pomo-work-min').value,short:+$('pomo-short-min').value,long:+$('pomo-long-min').value};pomoTotal=pomoSec=(mins[pomoCurMode]||25)*60;pomoUpdateDisplay();pomoUpdateRing(0)}
+function pomoToggle(){if(pomoRunning){clearInterval(pomoInt);pomoRunning=false;$('pomo-btn').textContent='▶ Resume'}else{pomoRunning=true;$('pomo-btn').textContent='⏸ Pause';pomoInt=setInterval(()=>{if(--pomoSec<=0){clearInterval(pomoInt);pomoRunning=false;$('pomo-btn').textContent='▶ Start';if(pomoCurMode==='work'){pomoSessions++;$('pomo-count').textContent=pomoSessions}try{new Audio('data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQ==').play()}catch(e){}pomoReset()}pomoUpdateDisplay();pomoUpdateRing((pomoTotal-pomoSec)/pomoTotal)},1000)}}
+function pomoUpdateDisplay(){const m=Math.floor(pomoSec/60),s=pomoSec%60;$('pomo-time').textContent=`${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;$('pomo-label').textContent={work:'Focus Time',short:'Short Break',long:'Long Break'}[pomoCurMode]}
+function pomoUpdateRing(pct){const c=565.5;$('pomo-fg').setAttribute('stroke-dashoffset',c*pct)}
+
+/* ═══ NOTEPAD ═══ */
+function npLoad(){try{$('notepad-text').value=localStorage.getItem('qt-notepad')||''}catch(e){}}
+function npSave(){try{localStorage.setItem('qt-notepad',$('notepad-text').value);$('np-stat').innerHTML='<div class="dot"></div><span>Auto-saved</span>'}catch(e){}}
+function npCopy(){copyText($('notepad-text').value)}
+function npDL(){dlBlob($('notepad-text').value,'notes.txt','text/plain')}
+function npClear(){if(confirm('Clear all notes?')){$('notepad-text').value='';npSave()}}
+
+/* ═══ UNIT CONVERTER ═══ */
+const UC={length:{m:1,km:1000,cm:.01,mm:.001,mi:1609.344,yd:.9144,ft:.3048,in:.0254},weight:{kg:1,g:.001,mg:1e-6,lb:.453592,oz:.0283495,ton:1000,st:6.35029},temp:{},volume:{l:1,ml:.001,gal:3.78541,qt:.946353,pt:.473176,cup:.236588,fl_oz:.0295735},area:{m2:1,km2:1e6,ha:1e4,acre:4046.86,ft2:.092903,in2:6.4516e-4},speed:{mps:1,kph:.277778,mph:.44704,knot:.514444},data:{B:1,KB:1024,MB:1048576,GB:1073741824,TB:1099511627776},time:{s:1,min:60,hr:3600,day:86400,wk:604800,mo:2592000,yr:31536000}};
+function ucCatChange(){const cat=$('uc-cat').value;const units=Object.keys(UC[cat]||{});if(cat==='temp'){$('uc-from').innerHTML='<option value="C">°C</option><option value="F">°F</option><option value="K">K</option>';$('uc-to').innerHTML='<option value="F">°F</option><option value="C">°C</option><option value="K">K</option>'}else{$('uc-from').innerHTML=units.map((u,i)=>`<option value="${u}"${i===0?' selected':''}>${u}</option>`).join('');$('uc-to').innerHTML=units.map((u,i)=>`<option value="${u}"${i===1?' selected':''}>${u}</option>`).join('')}ucConvert()}
+function ucConvert(){const cat=$('uc-cat').value,v=parseFloat($('uc-val').value)||0,from=$('uc-from').value,to=$('uc-to').value;let r;if(cat==='temp'){if(from==='C'&&to==='F')r=v*9/5+32;else if(from==='F'&&to==='C')r=(v-32)*5/9;else if(from==='C'&&to==='K')r=v+273.15;else if(from==='K'&&to==='C')r=v-273.15;else if(from==='F'&&to==='K')r=(v-32)*5/9+273.15;else if(from==='K'&&to==='F')r=(v-273.15)*9/5+32;else r=v}else{const u=UC[cat];r=v*u[from]/u[to]}$('uc-result').value=Number.isFinite(r)?+r.toPrecision(10):'—'}
+
+/* ═══ JSON ═══ */
+function jFmt(){const i=$('j-in').value.trim(),o=$('j-out');if(!i)return;try{o.textContent=JSON.stringify(JSON.parse(i),null,2);o.style.color='var(--accent)';$('j-stat').innerHTML='<div class="dot"></div><span>Beautified</span>'}catch(e){o.textContent='❌ '+e.message;o.style.color='var(--red)';$('j-stat').innerHTML='<div class="dot err"></div><span>Invalid</span>'}}
+function jMin(){const i=$('j-in').value.trim(),o=$('j-out');if(!i)return;try{o.textContent=JSON.stringify(JSON.parse(i));o.style.color='var(--accent)';$('j-stat').innerHTML='<div class="dot"></div><span>Minified</span>'}catch(e){o.textContent='❌ '+e.message;o.style.color='var(--red)';$('j-stat').innerHTML='<div class="dot err"></div><span>Invalid</span>'}}
+function jVal(){const i=$('j-in').value.trim(),o=$('j-out');if(!i)return;try{JSON.parse(i);o.textContent='✅ Valid JSON!';o.style.color='var(--accent)';$('j-stat').innerHTML='<div class="dot"></div><span>Valid</span>'}catch(e){o.textContent='❌ '+e.message;o.style.color='var(--red)';$('j-stat').innerHTML='<div class="dot err"></div><span>Invalid</span>'}}
+
+/* ═══ BASE64 ═══ */
+const bd=$('b64-drop');bd.addEventListener('dragover',e=>{e.preventDefault();bd.classList.add('over')});bd.addEventListener('dragleave',()=>bd.classList.remove('over'));bd.addEventListener('drop',e=>{e.preventDefault();bd.classList.remove('over');if(e.dataTransfer.files.length)b64Enc({files:e.dataTransfer.files})});
+function b64Enc(i){const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{$('b64-out').textContent=r.result;$('b64-stat').innerHTML=`<div class="dot"></div><span>${f.name} — ${(r.result.length/1024).toFixed(1)}KB</span>`};r.readAsDataURL(f)}
+function b64Dec(){let b=$('b64-dec').value.trim();if(!b)return;if(!b.startsWith('data:'))b='data:image/png;base64,'+b;$('b64-img').innerHTML=`<img src="${b}" style="max-width:100%;max-height:350px;border-radius:var(--rs);border:1px solid var(--border)">`}
+
+/* ═══ HASH ═══ */
+async function hTxt(t,a){const d=new TextEncoder().encode(t);return Array.from(new Uint8Array(await crypto.subtle.digest(a,d))).map(b=>b.toString(16).padStart(2,'0')).join('')}
+async function hGen(){const t=$('h-in').value;if(!t){$('h-256').value=$('h-512').value=$('h-1').value='';return}$('h-256').value=await hTxt(t,'SHA-256');$('h-512').value=await hTxt(t,'SHA-512');$('h-1').value=await hTxt(t,'SHA-1')}
+async function hFile(i){const f=i.files[0];if(!f)return;const b=await f.arrayBuffer();const hex=buf=>Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');$('h-256').value=hex(await crypto.subtle.digest('SHA-256',b));$('h-512').value=hex(await crypto.subtle.digest('SHA-512',b));$('h-1').value=hex(await crypto.subtle.digest('SHA-1',b));$('h-in').value=`[File: ${f.name}]`}
+
+/* ═══ MARKDOWN ═══ */
+function mdRender(){$('md-out').innerHTML=marked.parse($('md-in').value)}
+
+/* ═══ TIMESTAMP ═══ */
+let tsI;function tsStart(){clearInterval(tsI);const u=()=>$('ts-live').textContent=Math.floor(Date.now()/1000);u();tsI=setInterval(u,1000)}
+function ts2d(){const v=$('ts-in').value.trim();if(!v)return;const d=new Date(parseInt(v)*(v.length>10?1:1000));$('ts-dout').value=d.toString()!=='Invalid Date'?d.toISOString().replace('T',' ').slice(0,19)+' UTC | '+d.toLocaleString():'Invalid'}
+function d2ts(){const v=$('ts-din').value.trim();if(!v)return;const d=new Date(v);$('ts-tout').value=d.toString()!=='Invalid Date'?Math.floor(d.getTime()/1000):'Invalid'}
+
+/* ═══ URL ENCODE ═══ */
+function ueEnc(){$('ue-out').textContent=encodeURIComponent($('ue-in').value)}
+function ueDec(){try{$('ue-out').textContent=decodeURIComponent($('ue-in').value)}catch(e){$('ue-out').textContent='❌ Invalid'}}
+
+/* ═══ COLOR ═══ */
+function cUpdate(hex){$('c-prev').style.background=hex;$('c-hex').value=hex;$('c-pick').value=hex;const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);$('c-rgb').value=`rgb(${r},${g},${b})`;const rn=r/255,gn=g/255,bn=b/255,mx=Math.max(rn,gn,bn),mn=Math.min(rn,gn,bn);let h,s,l=(mx+mn)/2;if(mx===mn)h=s=0;else{const d=mx-mn;s=l>.5?d/(2-mx-mn):d/(mx+mn);switch(mx){case rn:h=((gn-bn)/d+(gn<bn?6:0))/6;break;case gn:h=((bn-rn)/d+2)/6;break;case bn:h=((rn-gn)/d+4)/6;break}}$('c-hsl').value=`hsl(${Math.round(h*360)},${Math.round(s*100)}%,${Math.round(l*100)}%)`;$('c-css').value=`--color:${hex};`;cPal(hex)}
+function cFromHex(v){if(/^#[0-9a-fA-F]{6}$/.test(v))cUpdate(v)}
+function cPal(hex){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);const c=[hex,...[60,120,180].map(o=>`#${((r+o)%256).toString(16).padStart(2,'0')}${((g+o)%256).toString(16).padStart(2,'0')}${((b+o)%256).toString(16).padStart(2,'0')}`),`#${(255-r).toString(16).padStart(2,'0')}${(255-g).toString(16).padStart(2,'0')}${(255-b).toString(16).padStart(2,'0')}`];$('c-pal').innerHTML=c.map(x=>`<div onclick="cUpdate('${x}')" style="height:48px;border-radius:var(--rs);background:${x};cursor:pointer;border:1px solid var(--border)"></div>`).join('');$('c-shd').innerHTML=[.2,.4,.6,.8,1].map(f=>{const x=`#${Math.round(r*f).toString(16).padStart(2,'0')}${Math.round(g*f).toString(16).padStart(2,'0')}${Math.round(b*f).toString(16).padStart(2,'0')}`;return`<div onclick="cUpdate('${x}')" style="height:48px;border-radius:var(--rs);background:${x};cursor:pointer;border:1px solid var(--border)"></div>`}).join('')}
+
+/* ═══ WORD ═══ */
+function wCount(){const t=$('w-in').value;const c=t.length,cn=t.replace(/\s/g,'').length;const w=t.trim()?t.trim().split(/\s+/).length:0;const s=t.trim()?(t.match(/[.!?]+/g)||[]).length||(t.trim()?1:0):0;const p=t.trim()?t.split(/\n\s*\n/).filter(x=>x.trim()).length:0;const m=Math.floor(w/200),sc=Math.round((w%200)/200*60);$('w-w').textContent=w;$('w-c').textContent=c;$('w-cn').textContent=cn;$('w-s').textContent=s;$('w-p').textContent=p;$('w-r').textContent=m>0?m+'m '+sc+'s':sc+'s'}
+
+/* ═══ PASSWORD ═══ */
+function pwGen(){const len=+$('pw-len').value;const up=$('pw-up').checked,lo=$('pw-lo').checked,nm=$('pw-nm').checked,sy=$('pw-sy').checked,na=$('pw-na').checked;let ch='';if(up)ch+=na?'ABCDEFGHJKMNPQRSTUVWXYZ':'ABCDEFGHIJKLMNOPQRSTUVWXYZ';if(lo)ch+=na?'abcdefghjkmnpqrstuvwxyz':'abcdefghijklmnopqrstuvwxyz';if(nm)ch+=na?'23456789':'0123456789';if(sy)ch+='!@#$%^&*()_+-=[]{}|;:,.<>?';if(!ch)ch='abcdefghijklmnopqrstuvwxyz';const ar=new Uint32Array(len);crypto.getRandomValues(ar);let pw='';for(let i=0;i<len;i++)pw+=ch[ar[i]%ch.length];$('pw-box').textContent=pw;const ent=Math.log2(ch.length)*len;let st,co,w;if(ent<30){st='Very Weak';co='var(--red)';w='15%'}else if(ent<50){st='Weak';co='var(--orange)';w='30%'}else if(ent<70){st='Fair';co='var(--orange)';w='50%'}else if(ent<90){st='Strong';co='var(--accent)';w='75%'}else{st='Very Strong';co='var(--accent)';w='100%'}$('pw-sf').style.cssText=`width:${w};background:${co}`;$('pw-str').innerHTML=`<span>Strength: <strong style="color:${co}">${st}</strong> (${Math.round(ent)} bits)</span>`}
+
+/* ═══ TEXT CASE ═══ */
+function tcConv(t){const i=$('tc-in').value;let o='';switch(t){case'upper':o=i.toUpperCase();break;case'lower':o=i.toLowerCase();break;case'title':o=i.replace(/\w\S*/g,t=>t[0].toUpperCase()+t.substr(1).toLowerCase());break;case'sentence':o=i.toLowerCase().replace(/(^\s*\w|[.!?]\s+\w)/g,c=>c.toUpperCase());break;case'camel':o=i.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g,(_,c)=>c.toUpperCase());break;case'snake':o=i.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');break;case'kebab':o=i.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');break;case'toggle':o=i.split('').map(c=>c===c.toUpperCase()?c.toLowerCase():c.toUpperCase()).join('');break}$('tc-out').textContent=o}
+
+/* ═══ LOREM ═══ */
+const LW='lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum'.split(' ');
+function rL(n){let o=[];for(let i=0;i<n;i++)o.push(LW[Math.floor(Math.random()*LW.length)]);o[0]=o[0][0].toUpperCase()+o[0].slice(1);return o.join(' ')+'.'}
+function loGen(){const c=+$('lo-n').value,t=$('lo-t').value;let o='';if(t==='w'){let w=[];for(let i=0;i<c;i++)w.push(LW[Math.floor(Math.random()*LW.length)]);w[0]=w[0][0].toUpperCase()+w[0].slice(1);o=w.join(' ')}else if(t==='s'){let s=[];for(let i=0;i<c;i++)s.push(rL(8+Math.floor(Math.random()*12)));o=s.join(' ')}else{let p=[];for(let i=0;i<c;i++){let s=[];for(let j=0;j<3+Math.floor(Math.random()*4);j++)s.push(rL(6+Math.floor(Math.random()*14)));p.push(s.join(' '))}o=p.join('\n\n')}$('lo-out').textContent=o}
+</script>
+</body>
+</html>
