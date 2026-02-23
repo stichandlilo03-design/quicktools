@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickTools — Free Online Developer & Utility Tools</title>
+    <meta name="description" content="Free online tools: QR Code Generator, PDF Editor, JSON Formatter, Image Compressor, Base64 Converter, Color Picker, Word Counter, Password Generator, and more. Fast, free, no signup.">
+    <meta name="keywords" content="free online tools, QR code generator, menu QR code, price list QR, PDF editor, JSON formatter, base64 converter, color picker, word counter, password generator, developer tools, image compressor, markdown preview, hash generator">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="QuickTools — Free Online Developer & Utility Tools">
+    <meta property="og:description" content="15+ fast, free online tools. No signup. No tracking. Everything runs in your browser.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://quicktools.site">
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"WebApplication","name":"QuickTools","description":"Free online developer and utility tools","applicationCategory":"UtilityApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}}
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+    <style>
+        :root{--bg-primary:#0a0a0b;--bg-secondary:#141416;--bg-card:#1a1a1f;--bg-input:#222228;--border:#2a2a32;--border-hover:#3a3a45;--text-primary:#f0f0f2;--text-secondary:#9898a4;--text-muted:#606070;--accent:#22c55e;--accent-hover:#16a34a;--accent-glow:rgba(34,197,94,0.15);--accent-secondary:#3b82f6;--danger:#ef4444;--warning:#f59e0b;--purple:#a855f7;--radius:12px;--radius-sm:8px;--transition:0.2s cubic-bezier(0.4,0,0.2,1)}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'DM Sans',sans-serif;background:var(--bg-primary);color:var(--text-primary);min-height:100vh;-webkit-font-smoothing:antialiased}
+        nav{position:sticky;top:0;z-index:100;background:rgba(10,10,11,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px}
+        .nav-inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:64px}
+        .logo{font-size:20px;font-weight:700;letter-spacing:-0.5px;display:flex;align-items:center;gap:8px;cursor:pointer;flex-shrink:0}
+        .logo span{color:var(--accent)}
+        .logo-icon{width:32px;height:32px;background:var(--accent);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#000}
+        .nav-links{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;-ms-overflow-style:none}
+        .nav-links::-webkit-scrollbar{display:none}
+        .nav-link{padding:7px 12px;border-radius:var(--radius-sm);font-size:12.5px;font-weight:500;color:var(--text-secondary);cursor:pointer;transition:var(--transition);white-space:nowrap;border:none;background:none;font-family:inherit}
+        .nav-link:hover{color:var(--text-primary);background:var(--bg-card)}
+        .nav-link.active{color:var(--accent);background:var(--accent-glow)}
+        .hero{text-align:center;padding:80px 24px 48px;position:relative}
+        .hero::before{content:'';position:absolute;top:0;left:50%;transform:translateX(-50%);width:600px;height:400px;background:radial-gradient(ellipse,var(--accent-glow) 0%,transparent 70%);pointer-events:none}
+        .hero h1{font-size:clamp(32px,5vw,56px);font-weight:700;letter-spacing:-1.5px;line-height:1.1;margin-bottom:16px}
+        .hero h1 span{color:var(--accent)}
+        .hero p{font-size:18px;color:var(--text-secondary);max-width:520px;margin:0 auto;line-height:1.6}
+        .hero-stats{display:flex;justify-content:center;gap:40px;margin-top:40px}
+        .hero-stat-num{font-size:28px;font-weight:700}
+        .hero-stat-label{font-size:13px;color:var(--text-muted);margin-top:4px}
+        .container{max-width:1200px;margin:0 auto;padding:0 24px 80px}
+        .section-label{font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-muted);margin:40px 0 16px}
+        .tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+        .tool-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;cursor:pointer;transition:var(--transition);position:relative;overflow:hidden}
+        .tool-card:hover{border-color:var(--border-hover);transform:translateY(-2px);box-shadow:0 8px 32px rgba(0,0,0,0.3)}
+        .tool-card-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;margin-bottom:14px}
+        .tool-card h3{font-size:15px;font-weight:600;margin-bottom:6px}
+        .tool-card p{font-size:13px;color:var(--text-secondary);line-height:1.5}
+        .tool-card-arrow{position:absolute;top:24px;right:24px;color:var(--text-muted);transition:var(--transition)}
+        .tool-card:hover .tool-card-arrow{color:var(--accent);transform:translateX(4px)}
+        .badge{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:4px;margin-left:8px;vertical-align:middle}
+        .badge-new{background:var(--accent-glow);color:var(--accent)}
+        .badge-popular{background:rgba(59,130,246,0.12);color:#3b82f6}
+        .tool-page{display:none}
+        .tool-page.active{display:block}
+        .tool-header{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+        .tool-header h2{font-size:26px;font-weight:700;letter-spacing:-0.5px}
+        .tool-desc{color:var(--text-secondary);font-size:15px;margin-bottom:28px;max-width:600px;line-height:1.6}
+        .back-btn{display:inline-flex;align-items:center;gap:6px;color:var(--text-secondary);font-size:14px;font-weight:500;cursor:pointer;margin-bottom:24px;transition:var(--transition);background:none;border:none;font-family:inherit}
+        .back-btn:hover{color:var(--accent)}
+        .tool-layout{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+        @media(max-width:768px){.tool-layout{grid-template-columns:1fr}.tool-grid{grid-template-columns:1fr}.hero-stats{gap:24px}}
+        .panel{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius);padding:22px}
+        .panel-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:12px}
+        textarea,input[type="text"],input[type="number"],input[type="url"],input[type="email"],input[type="tel"],select{width:100%;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px 14px;color:var(--text-primary);font-family:'JetBrains Mono',monospace;font-size:13px;transition:var(--transition);outline:none}
+        textarea{resize:vertical;min-height:180px}
+        textarea:focus,input:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+        select{cursor:pointer}
+        label.field-label{display:block;font-size:12px;font-weight:600;color:var(--text-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
+        .field{margin-bottom:14px}
+        .btn{display:inline-flex;align-items:center;gap:7px;padding:9px 18px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer;transition:var(--transition);border:none}
+        .btn-primary{background:var(--accent);color:#000}
+        .btn-primary:hover{background:var(--accent-hover)}
+        .btn-secondary{background:var(--bg-input);color:var(--text-primary);border:1px solid var(--border)}
+        .btn-secondary:hover{border-color:var(--border-hover)}
+        .btn-group{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+        .output-box{background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;font-family:'JetBrains Mono',monospace;font-size:12px;min-height:180px;overflow:auto;white-space:pre-wrap;word-break:break-all;color:var(--text-primary);line-height:1.6}
+        .status-bar{display:flex;align-items:center;gap:8px;margin-top:10px;font-size:12px;color:var(--text-secondary)}
+        .status-dot{width:7px;height:7px;border-radius:50%;background:var(--accent)}
+        .status-dot.error{background:var(--danger)}
+        .tabs{display:flex;gap:2px;margin-bottom:20px;background:var(--bg-secondary);padding:4px;border-radius:10px;overflow-x:auto;scrollbar-width:none}
+        .tabs::-webkit-scrollbar{display:none}
+        .tab{padding:8px 16px;border-radius:8px;font-size:13px;font-weight:500;color:var(--text-secondary);cursor:pointer;transition:var(--transition);white-space:nowrap;border:none;background:none;font-family:inherit}
+        .tab:hover{color:var(--text-primary)}
+        .tab.active{background:var(--bg-card);color:var(--accent);box-shadow:0 1px 4px rgba(0,0,0,0.2)}
+        .tab-content{display:none}
+        .tab-content.active{display:block}
+        .qr-output{display:flex;align-items:center;justify-content:center;min-height:260px;background:#fff;border-radius:var(--radius-sm)}
+        .qr-output canvas,.qr-output img{max-width:100%}
+        .price-item-row{display:grid;grid-template-columns:1fr 80px 40px;gap:8px;align-items:center;margin-bottom:8px}
+        .price-item-row input{font-family:'DM Sans',sans-serif}
+        .remove-item-btn{width:36px;height:36px;border-radius:8px;background:rgba(239,68,68,0.1);color:var(--danger);border:none;cursor:pointer;font-size:16px;transition:var(--transition);display:flex;align-items:center;justify-content:center}
+        .remove-item-btn:hover{background:rgba(239,68,68,0.2)}
+        .price-preview{background:#fff;color:#111;border-radius:var(--radius-sm);padding:32px;font-family:'DM Sans',sans-serif}
+        .price-preview h3{font-size:22px;font-weight:700;margin-bottom:4px;color:#000}
+        .price-preview .subtitle{font-size:13px;color:#666;margin-bottom:20px}
+        .price-preview .item-line{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px dashed #ddd;font-size:14px}
+        .price-preview .item-line:last-child{border-bottom:none}
+        .price-preview .item-name{color:#333}
+        .price-preview .item-price{font-weight:700;color:#000}
+        .color-preview{width:100%;height:100px;border-radius:var(--radius-sm);border:1px solid var(--border);margin-bottom:14px}
+        .color-inputs{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+        .password-display{font-family:'JetBrains Mono',monospace;font-size:18px;text-align:center;padding:20px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);word-break:break-all;letter-spacing:1px;min-height:72px;display:flex;align-items:center;justify-content:center}
+        .strength-bar{height:4px;border-radius:2px;background:var(--bg-input);margin-top:10px;overflow:hidden}
+        .strength-fill{height:100%;border-radius:2px;transition:var(--transition)}
+        .slider-row{display:flex;align-items:center;gap:12px;margin:14px 0}
+        .slider-row input[type="range"]{flex:1;-webkit-appearance:none;background:var(--bg-input);height:6px;border-radius:3px;outline:none;border:none;padding:0}
+        .slider-row input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--accent);cursor:pointer}
+        .slider-val{font-family:'JetBrains Mono',monospace;font-size:14px;font-weight:600;min-width:30px;text-align:right}
+        .checkbox-row{display:flex;align-items:center;gap:8px;margin:6px 0;font-size:13px;color:var(--text-secondary);cursor:pointer}
+        .checkbox-row input[type="checkbox"]{width:16px;height:16px;accent-color:var(--accent);cursor:pointer}
+        .word-stats{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px;margin-top:14px}
+        .word-stat-card{background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:14px;text-align:center}
+        .word-stat-num{font-size:24px;font-weight:700;font-family:'JetBrains Mono',monospace}
+        .word-stat-label{font-size:11px;color:var(--text-muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.5px}
+        .file-drop{border:2px dashed var(--border);border-radius:var(--radius);padding:36px;text-align:center;cursor:pointer;transition:var(--transition)}
+        .file-drop:hover,.file-drop.dragover{border-color:var(--accent);background:var(--accent-glow)}
+        .file-drop-icon{font-size:32px;margin-bottom:10px}
+        .file-drop p{color:var(--text-secondary);font-size:13px}
+        .md-preview{background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);padding:20px;min-height:180px;line-height:1.7;font-size:14px;overflow:auto}
+        .md-preview h1,.md-preview h2,.md-preview h3{margin:16px 0 8px}
+        .md-preview h1{font-size:24px}.md-preview h2{font-size:20px}.md-preview h3{font-size:16px}
+        .md-preview p{margin:8px 0}
+        .md-preview code{background:rgba(255,255,255,0.06);padding:2px 6px;border-radius:4px;font-family:'JetBrains Mono',monospace;font-size:12px}
+        .md-preview pre{background:rgba(255,255,255,0.04);padding:12px;border-radius:8px;overflow-x:auto;margin:12px 0}
+        .md-preview pre code{background:none;padding:0}
+        .md-preview ul,.md-preview ol{margin:8px 0;padding-left:24px}
+        .md-preview blockquote{border-left:3px solid var(--accent);padding-left:16px;color:var(--text-secondary);margin:12px 0}
+        .md-preview a{color:var(--accent)}
+        .md-preview table{border-collapse:collapse;width:100%;margin:12px 0}
+        .md-preview th,.md-preview td{border:1px solid var(--border);padding:8px 12px;text-align:left}
+        .md-preview th{background:var(--bg-card)}
+        footer{border-top:1px solid var(--border);padding:28px 24px;text-align:center;color:var(--text-muted);font-size:12px}
+        footer a{color:var(--text-secondary);text-decoration:none}
+        footer a:hover{color:var(--accent)}
+        .ad-slot{background:var(--bg-secondary);border:1px dashed var(--border);border-radius:var(--radius-sm);padding:16px;text-align:center;color:var(--text-muted);font-size:11px;margin:28px 0}
+        .seo-article{margin-top:40px;color:var(--text-secondary);font-size:14px;line-height:1.8;max-width:700px}
+        .seo-article h3{color:var(--text-primary);font-size:17px;margin-bottom:10px}
+        .toast{position:fixed;bottom:24px;right:24px;background:var(--accent);color:#000;padding:10px 18px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;z-index:1000;transform:translateY(80px);opacity:0;transition:all 0.3s ease}
+        .toast.show{transform:translateY(0);opacity:1}
+    </style>
+</head>
+<body>
+<nav><div class="nav-inner">
+    <div class="logo" onclick="showHome()"><div class="logo-icon">Q</div>Quick<span>Tools</span></div>
+    <div class="nav-links">
+        <button class="nav-link active" data-tool="home" onclick="showHome()">Home</button>
+        <button class="nav-link" data-tool="qr" onclick="showTool('qr')">QR Suite</button>
+        <button class="nav-link" data-tool="pdf" onclick="showTool('pdf')">PDF Tools</button>
+        <button class="nav-link" data-tool="json" onclick="showTool('json')">JSON</button>
+        <button class="nav-link" data-tool="base64" onclick="showTool('base64')">Base64</button>
+        <button class="nav-link" data-tool="color" onclick="showTool('color')">Colors</button>
+        <button class="nav-link" data-tool="word" onclick="showTool('word')">Words</button>
+        <button class="nav-link" data-tool="password" onclick="showTool('password')">Password</button>
+        <button class="nav-link" data-tool="markdown" onclick="showTool('markdown')">Markdown</button>
+        <button class="nav-link" data-tool="hash" onclick="showTool('hash')">Hash</button>
+        <button class="nav-link" data-tool="textcase" onclick="showTool('textcase')">Text Case</button>
+        <button class="nav-link" data-tool="timestamp" onclick="showTool('timestamp')">Timestamp</button>
+        <button class="nav-link" data-tool="urlenc" onclick="showTool('urlenc')">URL Encode</button>
+        <button class="nav-link" data-tool="lorem" onclick="showTool('lorem')">Lorem Ipsum</button>
+        <button class="nav-link" data-tool="imgcompress" onclick="showTool('imgcompress')">Image Compress</button>
+    </div>
+</div></nav>
+
+<div id="home-page">
+    <section class="hero">
+        <h1>Free Online <span>Tools</span><br>That Just Work</h1>
+        <p>15+ fast, private tools — no signup, no tracking. Everything runs in your browser.</p>
+        <div class="hero-stats">
+            <div class="hero-stat"><div class="hero-stat-num">15+</div><div class="hero-stat-label">Free Tools</div></div>
+            <div class="hero-stat"><div class="hero-stat-num">0</div><div class="hero-stat-label">Data Collected</div></div>
+            <div class="hero-stat"><div class="hero-stat-num">∞</div><div class="hero-stat-label">Usage Limit</div></div>
+        </div>
+    </section>
+    <div class="container">
+        <div class="ad-slot"><!-- AdSense 728x90 --></div>
+        <div class="section-label">⚡ Most Popular</div>
+        <div class="tool-grid">
+            <div class="tool-card" onclick="showTool('qr')"><div class="tool-card-icon" style="background:rgba(34,197,94,0.12);color:#22c55e;">⣿</div><h3>QR Code Suite <span class="badge badge-popular">Popular</span></h3><p>URL, WiFi, Contact, Email, SMS, Price List & Menu QR codes.</p><div class="tool-card-arrow">→</div></div>
+            <div class="tool-card" onclick="showTool('pdf')"><div class="tool-card-icon" style="background:rgba(239,68,68,0.12);color:#ef4444;">📄</div><h3>PDF Tools <span class="badge badge-new">New</span></h3><p>Create, merge, watermark, and convert images to PDF.</p><div class="tool-card-arrow">→</div></div>
+            <div class="tool-card" onclick="showTool('json')"><div class="tool-card-icon" style="background:rgba(59,130,246,0.12);color:#3b82f6;">{ }</div><h3>JSON Formatter</h3><p>Beautify, minify, and validate JSON with error highlighting.</p><div class="tool-card-arrow">→</div></div>
+            <div class="tool-card" onclick="showTool('imgcompress')"><div class="tool-card-icon" style="background:rgba(168,85,247,0.12);color:#a855f7;">🖼</div><h3>Image Compressor <span class="badge badge-new">New</span></h3><p>Compress and resize images in your browser.</p><div class="tool-card-arrow">→</div></div>
+        </div>
+        <div class="section-label">🛠 Developer Tools</div>
+        <div class="tool-grid">
+            <div class="tool-card" onclick="showTool('base64')"><div class="tool-card-icon" style="background:rgba(168,85,247,0.12);color:#a855f7;">↔</div><h3>Image to Base64</h3><p>Convert images to Base64 strings and back.</p><div class="tool-card-arrow">→</div></div>
+            <div class="tool-card" onclick="showTool('hash')"><div class="tool-card-icon" style="background:rgba(59,130,246,0.12);color:#3b82f6;">#</div><h3>Hash Generator <span class="badge badge-new">New</span></h3><p>SHA-256, SHA-512, SHA-1. File hashing supported.</p><div class="tool-card-arrow">→</div></div>
+            <div class="tool-card" onclick="showTool('markdown')"><div class="tool-card-icon" style="background:rgba(34,197,94,0.12);color:#22c55e;">M↓</div><h3>Markdown Preview <span class="badge badge-new">New</span></h3><p>Live editor with instant rendered preview.</p><div class="tool-card-arrow">→</div></div>
+            <div class="tool-card" onclick="showTool('urlenc')"><div class="tool-card-icon" style="background:rgba(245,158,11,0.12);color:#f59e0b;">%</div><h3>URL Encoder <span class="badge badge-new">New</span></h3><p>Encode & decode URLs and query strings.</p><div class="tool-card-arrow">→</div></div>
+            <div class="tool-card" onclick="showTool('timestamp')"><div class="tool-card-icon" style="background:rgba(236,72,153,0.12);color:#ec4899;">⏱</div><h3>Timestamp Converter <span class="badge badge-new">New</span></h3><p>Unix timestamp ↔ human date. Live epoch.</p><div class="tool-card-arrow">→</div></div>
+        </div>
+        <div class="section-label">✏️ Text & Utility</div>
+        <div class="tool-grid">
+            <div class="tool-card" onclick="showTool('color')"><div class="tool-card-icon" style="background:rgba(245,158,11,0.12);color:#f59e0b;">◐</div><h3>Color Picker</h3><p>Pick colors, convert HEX/RGB/HSL, generate palettes.</p><div class="tool-card-arrow">→</div></div>
+            <div class="tool-card" onclick="showTool('word')"><div class="tool-card-icon" style="background:rgba(236,72,153,0.12);color:#ec4899;">¶</div><h3>Word Counter</h3><p>Words, characters, sentences, reading time.</p><div class="tool-card-arrow">→</div></div>
+            <div class="tool-card" onclick="showTool('password')"><div class="tool-card-icon" style="background:rgba(239,68,68,0.12);color:#ef4444;">⚿</div><h3>Password Generator</h3><p>Crypto-secure passwords with strength meter.</p><div class="tool-card-arrow">→</div></div>
+            <div class="tool-card" onclick="showTool('textcase')"><div class="tool-card-icon" style="background:rgba(34,197,94,0.12);color:#22c55e;">Aa</div><h3>Text Case Converter <span class="badge badge-new">New</span></h3><p>UPPER, lower, Title, camelCase, snake_case.</p><div class="tool-card-arrow">→</div></div>
+            <div class="tool-card" onclick="showTool('lorem')"><div class="tool-card-icon" style="background:rgba(168,85,247,0.12);color:#a855f7;">¶</div><h3>Lorem Ipsum <span class="badge badge-new">New</span></h3><p>Generate placeholder text for designs.</p><div class="tool-card-arrow">→</div></div>
+        </div>
+        <div class="ad-slot"><!-- AdSense 728x90 --></div>
+    </div>
+</div>
+
+<!-- QR SUITE -->
+<div id="tool-qr" class="tool-page"><div class="container" style="padding-top:40px;">
+    <button class="back-btn" onclick="showHome()">← Back to all tools</button>
+    <div class="tool-header"><h2>QR Code Suite</h2></div>
+    <p class="tool-desc">Generate QR codes for anything — URLs, WiFi, contacts, emails, SMS, menus & price lists.</p>
+    <div class="ad-slot"><!-- Ad --></div>
+    <div class="tabs">
+        <button class="tab active" onclick="switchQRTab('url',this)">URL / Text</button>
+        <button class="tab" onclick="switchQRTab('wifi',this)">WiFi</button>
+        <button class="tab" onclick="switchQRTab('vcard',this)">Contact Card</button>
+        <button class="tab" onclick="switchQRTab('email',this)">Email</button>
+        <button class="tab" onclick="switchQRTab('sms',this)">SMS / Phone</button>
+        <button class="tab" onclick="switchQRTab('pricelist',this)">Price List / Menu</button>
+    </div>
+    <div class="tool-layout">
+        <div class="panel">
+            <div id="qr-tab-url" class="tab-content active">
+                <div class="panel-label">Text or URL</div>
+                <input type="text" id="qr-url-input" placeholder="https://yoursite.com" value="https://quicktools.site" oninput="generateQR()">
+            </div>
+            <div id="qr-tab-wifi" class="tab-content">
+                <div class="panel-label">WiFi Network</div>
+                <div class="field"><label class="field-label">Network Name (SSID)</label><input type="text" id="qr-wifi-ssid" placeholder="MyWiFi" oninput="generateQR()"></div>
+                <div class="field"><label class="field-label">Password</label><input type="text" id="qr-wifi-pass" placeholder="password123" oninput="generateQR()"></div>
+                <div class="field"><label class="field-label">Security</label><select id="qr-wifi-enc" onchange="generateQR()"><option value="WPA">WPA/WPA2</option><option value="WEP">WEP</option><option value="nopass">None</option></select></div>
+            </div>
+            <div id="qr-tab-vcard" class="tab-content">
+                <div class="panel-label">Contact Info</div>
+                <div class="field"><label class="field-label">Full Name</label><input type="text" id="qr-vc-name" placeholder="John Doe" oninput="generateQR()"></div>
+                <div class="field"><label class="field-label">Phone</label><input type="tel" id="qr-vc-phone" placeholder="+254700000000" oninput="generateQR()"></div>
+                <div class="field"><label class="field-label">Email</label><input type="email" id="qr-vc-email" placeholder="john@example.com" oninput="generateQR()"></div>
+                <div class="field"><label class="field-label">Company</label><input type="text" id="qr-vc-org" placeholder="Company" oninput="generateQR()"></div>
+                <div class="field"><label class="field-label">Website</label><input type="url" id="qr-vc-url" placeholder="https://example.com" oninput="generateQR()"></div>
+            </div>
+            <div id="qr-tab-email" class="tab-content">
+                <div class="panel-label">Email</div>
+                <div class="field"><label class="field-label">To</label><input type="email" id="qr-em-to" placeholder="hello@example.com" oninput="generateQR()"></div>
+                <div class="field"><label class="field-label">Subject</label><input type="text" id="qr-em-subject" placeholder="Inquiry" oninput="generateQR()"></div>
+                <div class="field"><label class="field-label">Body</label><textarea id="qr-em-body" placeholder="Hi..." style="min-height:80px;" oninput="generateQR()"></textarea></div>
+            </div>
+            <div id="qr-tab-sms" class="tab-content">
+                <div class="panel-label">SMS / Phone Call</div>
+                <div class="field"><label class="field-label">Phone Number</label><input type="tel" id="qr-sms-phone" placeholder="+254700000000" oninput="generateQR()"></div>
+                <div class="field"><label class="field-label">Message (for SMS)</label><textarea id="qr-sms-msg" placeholder="Hi..." style="min-height:80px;" oninput="generateQR()"></textarea></div>
+                <div class="field"><select id="qr-sms-type" onchange="generateQR()"><option value="sms">SMS Message</option><option value="tel">Phone Call</option></select></div>
+            </div>
+            <div id="qr-tab-pricelist" class="tab-content">
+                <div class="panel-label">Business / Menu Info</div>
+                <div class="field"><label class="field-label">Business Name</label><input type="text" id="pl-biz-name" placeholder="Joe's Coffee" oninput="updatePricePreview()"></div>
+                <div class="field"><label class="field-label">Tagline</label><input type="text" id="pl-biz-desc" placeholder="Fresh brews daily" oninput="updatePricePreview()"></div>
+                <div class="field"><label class="field-label">Currency</label><input type="text" id="pl-currency" value="KES" style="width:100px;" oninput="updatePricePreview()"></div>
+                <div class="panel-label" style="margin-top:14px;">Menu Items</div>
+                <div id="price-items">
+                    <div class="price-item-row"><input type="text" class="pl-item-name" placeholder="Item" value="Espresso" oninput="updatePricePreview()"><input type="text" class="pl-item-price" placeholder="Price" value="250" oninput="updatePricePreview()"><button class="remove-item-btn" onclick="removePriceItem(this)">×</button></div>
+                    <div class="price-item-row"><input type="text" class="pl-item-name" placeholder="Item" value="Cappuccino" oninput="updatePricePreview()"><input type="text" class="pl-item-price" placeholder="Price" value="350" oninput="updatePricePreview()"><button class="remove-item-btn" onclick="removePriceItem(this)">×</button></div>
+                    <div class="price-item-row"><input type="text" class="pl-item-name" placeholder="Item" value="Sandwich" oninput="updatePricePreview()"><input type="text" class="pl-item-price" placeholder="Price" value="500" oninput="updatePricePreview()"><button class="remove-item-btn" onclick="removePriceItem(this)">×</button></div>
+                </div>
+                <button class="btn btn-secondary" style="margin-top:8px;" onclick="addPriceItem()">+ Add Item</button>
+            </div>
+            <div class="btn-group" style="margin-top:18px;">
+                <button class="btn btn-primary" onclick="generateQR()">⣿ Generate QR</button>
+                <button class="btn btn-secondary" onclick="downloadQR()">↓ Download PNG</button>
+            </div>
+        </div>
+        <div>
+            <div class="panel"><div class="panel-label">QR Code Preview</div><div class="qr-output" id="qr-output"></div></div>
+            <div class="panel" id="price-preview-panel" style="margin-top:16px;display:none;">
+                <div class="panel-label">Price List Preview</div>
+                <div class="price-preview" id="price-preview"></div>
+                <div class="btn-group"><button class="btn btn-secondary" onclick="downloadPriceList()">↓ Download Price List Image</button></div>
+            </div>
+        </div>
+    </div>
+    <div class="ad-slot"><!-- Ad --></div>
+    <article class="seo-article"><h3>Free QR Code Generator — URL, WiFi, Contact, Menu & Price List</h3><p>Create QR codes for any purpose: share URLs, let customers connect to WiFi, share contact cards (vCard), compose emails, send SMS, or create scannable menus and price lists for your business. Perfect for restaurants, shops, and cafes in Kenya and worldwide.</p></article>
+</div></div>
+
+<!-- PDF TOOLS -->
+<div id="tool-pdf" class="tool-page"><div class="container" style="padding-top:40px;">
+    <button class="back-btn" onclick="showHome()">← Back to all tools</button>
+    <div class="tool-header"><h2>PDF Tools</h2></div>
+    <p class="tool-desc">Create PDFs, merge files, add watermarks, convert images — all in your browser.</p>
+    <div class="ad-slot"><!-- Ad --></div>
+    <div class="tabs">
+        <button class="tab active" onclick="switchPDFTab('create',this)">Create PDF</button>
+        <button class="tab" onclick="switchPDFTab('merge',this)">Merge PDFs</button>
+        <button class="tab" onclick="switchPDFTab('watermark',this)">Watermark</button>
+        <button class="tab" onclick="switchPDFTab('images',this)">Images → PDF</button>
+    </div>
+    <div class="panel">
+        <div id="pdf-tab-create" class="tab-content active">
+            <div class="panel-label">Create PDF from Text</div>
+            <div class="field"><label class="field-label">Title</label><input type="text" id="pdf-title" placeholder="My Document"></div>
+            <div class="field"><label class="field-label">Content</label><textarea id="pdf-content" placeholder="Type or paste text here..." style="min-height:250px;font-family:'DM Sans',sans-serif;"></textarea></div>
+            <div class="field"><label class="field-label">Font Size</label><select id="pdf-fontsize"><option value="10">10pt</option><option value="12" selected>12pt</option><option value="14">14pt</option><option value="16">16pt</option></select></div>
+            <div class="btn-group"><button class="btn btn-primary" onclick="createPDF()">📄 Create PDF</button></div>
+        </div>
+        <div id="pdf-tab-merge" class="tab-content">
+            <div class="panel-label">Merge Multiple PDFs</div>
+            <div class="file-drop" onclick="document.getElementById('pdf-merge-input').click()"><div class="file-drop-icon">📄📄</div><p>Drop PDF files here or click to browse</p></div>
+            <input type="file" id="pdf-merge-input" accept=".pdf" multiple style="display:none" onchange="handleMergePDFs(this)">
+            <div id="pdf-merge-list" style="margin-top:12px;"></div>
+            <div class="btn-group"><button class="btn btn-primary" onclick="mergePDFs()">🔗 Merge PDFs</button></div>
+        </div>
+        <div id="pdf-tab-watermark" class="tab-content">
+            <div class="panel-label">Add Watermark to PDF</div>
+            <div class="file-drop" onclick="document.getElementById('pdf-wm-input').click()"><div class="file-drop-icon">📄</div><p>Drop PDF here or click to browse</p></div>
+            <input type="file" id="pdf-wm-input" accept=".pdf" style="display:none" onchange="handleWatermarkPDF(this)">
+            <div class="field" style="margin-top:12px;"><label class="field-label">Watermark Text</label><input type="text" id="pdf-wm-text" placeholder="CONFIDENTIAL" value="DRAFT"></div>
+            <div class="btn-group"><button class="btn btn-primary" onclick="addWatermark()">💧 Add Watermark</button></div>
+        </div>
+        <div id="pdf-tab-images" class="tab-content">
+            <div class="panel-label">Convert Images to PDF</div>
+            <div class="file-drop" onclick="document.getElementById('pdf-img-input').click()"><div class="file-drop-icon">🖼</div><p>Drop images here — each becomes a page</p></div>
+            <input type="file" id="pdf-img-input" accept="image/png,image/jpeg" multiple style="display:none" onchange="handleImagesToPDF(this)">
+            <div id="pdf-img-list" style="margin-top:12px;"></div>
+            <div class="btn-group"><button class="btn btn-primary" onclick="imagesToPDF()">📄 Create PDF</button></div>
+        </div>
+    </div>
+    <div id="pdf-status" class="status-bar" style="margin-top:12px;"><div class="status-dot"></div><span>Ready</span></div>
+    <div class="ad-slot"><!-- Ad --></div>
+    <article class="seo-article"><h3>Free Online PDF Tools</h3><p>Create PDFs from text, merge multiple PDFs, add watermarks, or convert images to PDF — all free, all in your browser. No uploads, no signup.</p></article>
+</div></div>
+
+<!-- JSON -->
+<div id="tool-json" class="tool-page"><div class="container" style="padding-top:40px;">
+    <button class="back-btn" onclick="showHome()">← Back to all tools</button>
+    <div class="tool-header"><h2>JSON Formatter & Validator</h2></div>
+    <p class="tool-desc">Beautify, minify, or validate JSON data.</p>
+    <div class="ad-slot"><!-- Ad --></div>
+    <div class="tool-layout">
+        <div class="panel"><div class="panel-label">Input</div><textarea id="json-input" placeholder='{"name":"QuickTools","tools":15}'></textarea><div class="btn-group"><button class="btn btn-primary" onclick="formatJSON()">{ } Beautify</button><button class="btn btn-secondary" onclick="minifyJSON()">⟨⟩ Minify</button><button class="btn btn-secondary" onclick="validateJSON()">✓ Validate</button><button class="btn btn-secondary" onclick="copyOutput('json-output')">⎘ Copy</button></div></div>
+        <div class="panel"><div class="panel-label">Output</div><div class="output-box" id="json-output" style="color:#22c55e;">Paste JSON and click Beautify</div><div class="status-bar" id="json-status"><div class="status-dot"></div><span>Ready</span></div></div>
+    </div>
+    <div class="ad-slot"><!-- Ad --></div>
+</div></div>
+
+<!-- BASE64 -->
+<div id="tool-base64" class="tool-page"><div class="container" style="padding-top:40px;">
+    <button class="back-btn" onclick="showHome()">← Back to all tools</button>
+    <div class="tool-header"><h2>Image to Base64 Converter</h2></div>
+    <p class="tool-desc">Convert images to Base64 or decode Base64 to images.</p>
+    <div class="ad-slot"><!-- Ad --></div>
+    <div class="tool-layout">
+        <div class="panel"><div class="panel-label">Image → Base64</div><div class="file-drop" id="b64-file-drop" onclick="document.getElementById('b64-file-input').click()"><div class="file-drop-icon">📁</div><p>Drop image or click</p></div><input type="file" id="b64-file-input" accept="image/*" style="display:none" onchange="imageToBase64(this)"><div class="btn-group"><button class="btn btn-secondary" onclick="copyOutput('base64-output')">⎘ Copy</button></div></div>
+        <div class="panel"><div class="panel-label">Output</div><div class="output-box" id="base64-output" style="font-size:11px;">Base64 string appears here...</div><div class="status-bar" id="base64-status"><div class="status-dot"></div><span>Ready</span></div></div>
+    </div>
+    <div class="panel" style="margin-top:16px;"><div class="panel-label">Base64 → Image</div><textarea id="base64-decode-input" placeholder="Paste Base64 here..." style="min-height:80px;"></textarea><div class="btn-group"><button class="btn btn-primary" onclick="base64ToImage()">🖼 Decode</button></div><div id="base64-image-preview" style="margin-top:14px;text-align:center;"></div></div>
+    <div class="ad-slot"><!-- Ad --></div>
+</div></div>
+
+<!-- COLOR -->
+<div id="tool-color" class="tool-page"><div class="container" style="padding-top:40px;">
+    <button class="back-btn" onclick="showHome()">← Back to all tools</button>
+    <div class="tool-header"><h2>Color Picker & Converter</h2></div>
+    <p class="tool-desc">Pick colors, convert HEX/RGB/HSL. Click to copy.</p>
+    <div class="ad-slot"><!-- Ad --></div>
+    <div class="tool-layout">
+        <div class="panel">
+            <div class="panel-label">Pick a Color</div>
+            <div class="color-preview" id="color-preview" style="background:#22c55e;"></div>
+            <input type="color" id="color-picker" value="#22c55e" style="width:100%;height:48px;cursor:pointer;border:none;padding:0;border-radius:8px;" oninput="updateColorFromPicker(this.value)">
+            <div class="color-inputs" style="margin-top:14px;">
+                <div><label class="field-label">HEX</label><input type="text" id="color-hex" value="#22c55e" oninput="updateColorFromHex(this.value)" onclick="copyText(this.value)"></div>
+                <div><label class="field-label">RGB</label><input type="text" id="color-rgb" value="rgb(34, 197, 94)" readonly onclick="copyText(this.value)"></div>
+                <div><label class="field-label">HSL</label><input type="text" id="color-hsl" readonly onclick="copyText(this.value)"></div>
+                <div><label class="field-label">CSS</label><input type="text" id="color-css" readonly onclick="copyText(this.value)"></div>
+            </div>
+        </div>
+        <div class="panel"><div class="panel-label">Palette</div><div id="color-palette" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;"></div><div class="panel-label" style="margin-top:20px;">Shades</div><div id="color-shades" style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;"></div></div>
+    </div>
+    <div class="ad-slot"><!-- Ad --></div>
+</div></div>
+
+<!-- WORD COUNTER -->
+<div id="tool-word" class="tool-page"><div class="container" style="padding-top:40px;">
+    <button class="back-btn" onclick="showHome()">← Back to all tools</button>
+    <div class="tool-header"><h2>Word & Character Counter</h2></div>
+    <p class="tool-desc">Live word, character, sentence, paragraph count + reading time.</p>
+    <div class="ad-slot"><!-- Ad --></div>
+    <div class="panel"><div class="panel-label">Your Text</div><textarea id="word-input" placeholder="Start typing..." style="min-height:220px;font-family:'DM Sans',sans-serif;" oninput="countWords()"></textarea></div>
+    <div class="word-stats"><div class="word-stat-card"><div class="word-stat-num" id="stat-words">0</div><div class="word-stat-label">Words</div></div><div class="word-stat-card"><div class="word-stat-num" id="stat-chars">0</div><div class="word-stat-label">Characters</div></div><div class="word-stat-card"><div class="word-stat-num" id="stat-chars-no-space">0</div><div class="word-stat-label">No Spaces</div></div><div class="word-stat-card"><div class="word-stat-num" id="stat-sentences">0</div><div class="word-stat-label">Sentences</div></div><div class="word-stat-card"><div class="word-stat-num" id="stat-paragraphs">0</div><div class="word-stat-label">Paragraphs</div></div><div class="word-stat-card"><div class="word-stat-num" id="stat-readtime">0s</div><div class="word-stat-label">Read Time</div></div></div>
+    <div class="ad-slot"><!-- Ad --></div>
+</div></div>
+
+<!-- PASSWORD -->
+<div id="tool-password" class="tool-page"><div class="container" style="padding-top:40px;">
+    <button class="back-btn" onclick="showHome()">← Back to all tools</button>
+    <div class="tool-header"><h2>Password Generator</h2></div>
+    <p class="tool-desc">Crypto-secure passwords with customizable options.</p>
+    <div class="ad-slot"><!-- Ad --></div>
+    <div class="tool-layout">
+        <div class="panel"><div class="panel-label">Password</div><div class="password-display" id="password-display">Click Generate</div><div class="strength-bar"><div class="strength-fill" id="strength-fill"></div></div><div class="status-bar" id="strength-label"><span>Strength: —</span></div><div class="btn-group"><button class="btn btn-primary" onclick="generatePassword()">⟳ Generate</button><button class="btn btn-secondary" onclick="copyText(document.getElementById('password-display').textContent)">⎘ Copy</button></div></div>
+        <div class="panel"><div class="panel-label">Options</div><label style="font-size:13px;color:var(--text-secondary);">Length</label><div class="slider-row"><input type="range" id="pw-length" min="4" max="64" value="16" oninput="document.getElementById('pw-length-val').textContent=this.value;generatePassword()"><span class="slider-val" id="pw-length-val">16</span></div><label class="checkbox-row"><input type="checkbox" id="pw-upper" checked onchange="generatePassword()"> Uppercase (A-Z)</label><label class="checkbox-row"><input type="checkbox" id="pw-lower" checked onchange="generatePassword()"> Lowercase (a-z)</label><label class="checkbox-row"><input type="checkbox" id="pw-numbers" checked onchange="generatePassword()"> Numbers (0-9)</label><label class="checkbox-row"><input type="checkbox" id="pw-symbols" checked onchange="generatePassword()"> Symbols (!@#$%)</label><label class="checkbox-row"><input type="checkbox" id="pw-no-ambiguous" onchange="generatePassword()"> Exclude ambiguous</label></div>
+    </div>
+    <div class="ad-slot"><!-- Ad --></div>
+</div></div>
+
+<!-- MARKDOWN -->
+<div id="tool-markdown" class="tool-page"><div class="container" style="padding-top:40px;">
+    <button class="back-btn" onclick="showHome()">← Back to all tools</button>
+    <div class="tool-header"><h2>Markdown Preview</h2></div>
+    <p class="tool-desc">Write Markdown, see live rendered HTML.</p>
+    <div class="ad-slot"><!-- Ad --></div>
+    <div class="tool-layout">
+        <div class="panel"><div class="panel-label">Markdown</div><textarea id="md-input" oninput="renderMarkdown()" style="font-family:'JetBrains Mono',monospace;min-height:350px;"># Hello World
+
+This is **bold** and *italic*.
+
+## Features
+- Live preview
+- Tables, code blocks, blockquotes
+
+```js
+console.log("QuickTools!");
+```
+
+> Blockquote example
+
+| Name | Price |
+|------|-------|
+| Item | $10   |</textarea></div>
+        <div class="panel"><div class="panel-label">Preview</div><div class="md-preview" id="md-output"></div></div>
+    </div>
+    <div class="btn-group"><button class="btn btn-secondary" onclick="copyOutput('md-output')">⎘ Copy HTML</button></div>
+    <div class="ad-slot"><!-- Ad --></div>
+</div></div>
+
+<!-- HASH -->
+<div id="tool-hash" class="tool-page"><div class="container" style="padding-top:40px;">
+    <button class="back-btn" onclick="showHome()">← Back to all tools</button>
+    <div class="tool-header"><h2>Hash Generator</h2></div>
+    <p class="tool-desc">SHA-256, SHA-512, SHA-1 from text or files.</p>
+    <div class="ad-slot"><!-- Ad --></div>
+    <div class="tool-layout">
+        <div class="panel"><div class="panel-label">Input</div><textarea id="hash-input" placeholder="Text to hash..." oninput="generateHashes()"></textarea><div style="margin-top:12px;"><div class="panel-label">Or Hash a File</div><div class="file-drop" onclick="document.getElementById('hash-file-input').click()" style="padding:20px;"><p>Drop file or click</p></div><input type="file" id="hash-file-input" style="display:none" onchange="hashFile(this)"></div></div>
+        <div class="panel"><div class="panel-label">Hashes (click to copy)</div><div class="field"><label class="field-label">SHA-256</label><input type="text" id="hash-sha256" readonly onclick="copyText(this.value)" style="cursor:pointer;"></div><div class="field"><label class="field-label">SHA-512</label><input type="text" id="hash-sha512" readonly onclick="copyText(this.value)" style="cursor:pointer;font-size:10px;"></div><div class="field"><label class="field-label">SHA-1</label><input type="text" id="hash-sha1" readonly onclick="copyText(this.value)" style="cursor:pointer;"></div></div>
+    </div>
+    <div class="ad-slot"><!-- Ad --></div>
+</div></div>
+
+<!-- TEXT CASE -->
+<div id="tool-textcase" class="tool-page"><div class="container" style="padding-top:40px;">
+    <button class="back-btn" onclick="showHome()">← Back to all tools</button>
+    <div class="tool-header"><h2>Text Case Converter</h2></div>
+    <p class="tool-desc">Convert between UPPER, lower, Title, camelCase, snake_case, kebab-case.</p>
+    <div class="ad-slot"><!-- Ad --></div>
+    <div class="panel"><div class="panel-label">Text</div><textarea id="case-input" placeholder="Type or paste text..." style="min-height:120px;font-family:'DM Sans',sans-serif;"></textarea><div class="btn-group"><button class="btn btn-primary" onclick="convertCase('upper')">UPPER</button><button class="btn btn-secondary" onclick="convertCase('lower')">lower</button><button class="btn btn-secondary" onclick="convertCase('title')">Title Case</button><button class="btn btn-secondary" onclick="convertCase('sentence')">Sentence</button><button class="btn btn-secondary" onclick="convertCase('camel')">camelCase</button><button class="btn btn-secondary" onclick="convertCase('snake')">snake_case</button><button class="btn btn-secondary" onclick="convertCase('kebab')">kebab-case</button><button class="btn btn-secondary" onclick="convertCase('toggle')">tOGGLE</button></div></div>
+    <div class="panel" style="margin-top:16px;"><div class="panel-label">Result</div><div class="output-box" id="case-output" style="min-height:80px;"></div><div class="btn-group"><button class="btn btn-secondary" onclick="copyOutput('case-output')">⎘ Copy</button></div></div>
+    <div class="ad-slot"><!-- Ad --></div>
+</div></div>
+
+<!-- TIMESTAMP -->
+<div id="tool-timestamp" class="tool-page"><div class="container" style="padding-top:40px;">
+    <button class="back-btn" onclick="showHome()">← Back to all tools</button>
+    <div class="tool-header"><h2>Timestamp Converter</h2></div>
+    <p class="tool-desc">Unix timestamp ↔ human date conversion.</p>
+    <div class="ad-slot"><!-- Ad --></div>
+    <div class="panel" style="text-align:center;padding:28px;"><div class="panel-label">Current Unix Timestamp</div><div id="live-timestamp" style="font-size:36px;font-weight:700;font-family:'JetBrains Mono',monospace;cursor:pointer;" onclick="copyText(this.textContent)"></div><p style="font-size:12px;color:var(--text-muted);margin-top:4px;">Click to copy • Live</p></div>
+    <div class="tool-layout" style="margin-top:16px;">
+        <div class="panel"><div class="panel-label">Timestamp → Date</div><div class="field"><label class="field-label">Unix Timestamp</label><input type="text" id="ts-input" placeholder="1700000000" oninput="timestampToDate()"></div><div class="field"><label class="field-label">Result</label><input type="text" id="ts-date-output" readonly onclick="copyText(this.value)" style="cursor:pointer;font-family:'DM Sans',sans-serif;"></div></div>
+        <div class="panel"><div class="panel-label">Date → Timestamp</div><div class="field"><label class="field-label">Date & Time</label><input type="text" id="ts-date-input" placeholder="2025-01-15 12:00:00" oninput="dateToTimestamp()"></div><div class="field"><label class="field-label">Unix Timestamp</label><input type="text" id="ts-output" readonly onclick="copyText(this.value)" style="cursor:pointer;"></div></div>
+    </div>
+    <div class="ad-slot"><!-- Ad --></div>
+</div></div>
+
+<!-- URL ENCODE -->
+<div id="tool-urlenc" class="tool-page"><div class="container" style="padding-top:40px;">
+    <button class="back-btn" onclick="showHome()">← Back to all tools</button>
+    <div class="tool-header"><h2>URL Encoder / Decoder</h2></div>
+    <p class="tool-desc">Encode or decode URLs and query parameters.</p>
+    <div class="ad-slot"><!-- Ad --></div>
+    <div class="tool-layout">
+        <div class="panel"><div class="panel-label">Input</div><textarea id="url-input" placeholder="Enter URL or text..." style="min-height:120px;"></textarea><div class="btn-group"><button class="btn btn-primary" onclick="urlEncode()">Encode</button><button class="btn btn-secondary" onclick="urlDecode()">Decode</button></div></div>
+        <div class="panel"><div class="panel-label">Output</div><div class="output-box" id="url-output" style="min-height:120px;"></div><div class="btn-group"><button class="btn btn-secondary" onclick="copyOutput('url-output')">⎘ Copy</button></div></div>
+    </div>
+    <div class="ad-slot"><!-- Ad --></div>
+</div></div>
+
+<!-- LOREM IPSUM -->
+<div id="tool-lorem" class="tool-page"><div class="container" style="padding-top:40px;">
+    <button class="back-btn" onclick="showHome()">← Back to all tools</button>
+    <div class="tool-header"><h2>Lorem Ipsum Generator</h2></div>
+    <p class="tool-desc">Placeholder text for designs and mockups.</p>
+    <div class="ad-slot"><!-- Ad --></div>
+    <div class="tool-layout">
+        <div class="panel"><div class="panel-label">Options</div><div class="field"><label class="field-label">Amount</label><div class="slider-row"><input type="range" id="lorem-count" min="1" max="20" value="3" oninput="document.getElementById('lorem-count-val').textContent=this.value;generateLorem()"><span class="slider-val" id="lorem-count-val">3</span></div></div><div class="field"><label class="field-label">Type</label><select id="lorem-type" onchange="generateLorem()"><option value="paragraphs">Paragraphs</option><option value="sentences">Sentences</option><option value="words">Words</option></select></div><div class="btn-group"><button class="btn btn-primary" onclick="generateLorem()">Generate</button><button class="btn btn-secondary" onclick="copyOutput('lorem-output')">⎘ Copy</button></div></div>
+        <div class="panel"><div class="panel-label">Output</div><div class="output-box" id="lorem-output" style="font-family:'DM Sans',sans-serif;white-space:pre-wrap;word-break:normal;"></div></div>
+    </div>
+    <div class="ad-slot"><!-- Ad --></div>
+</div></div>
+
+<!-- IMAGE COMPRESSOR -->
+<div id="tool-imgcompress" class="tool-page"><div class="container" style="padding-top:40px;">
+    <button class="back-btn" onclick="showHome()">← Back to all tools</button>
+    <div class="tool-header"><h2>Image Compressor</h2></div>
+    <p class="tool-desc">Compress and resize images in your browser. Nothing uploaded.</p>
+    <div class="ad-slot"><!-- Ad --></div>
+    <div class="tool-layout">
+        <div class="panel">
+            <div class="panel-label">Upload</div>
+            <div class="file-drop" onclick="document.getElementById('compress-input').click()"><div class="file-drop-icon">🖼</div><p>Drop image or click</p></div>
+            <input type="file" id="compress-input" accept="image/*" style="display:none" onchange="handleCompressImage(this)">
+            <div class="field" style="margin-top:14px;"><label class="field-label">Quality</label><div class="slider-row"><input type="range" id="compress-quality" min="10" max="100" value="70" oninput="document.getElementById('compress-q-val').textContent=this.value+'%'"><span class="slider-val" id="compress-q-val">70%</span></div></div>
+            <div class="field"><label class="field-label">Max Width (0 = no resize)</label><input type="number" id="compress-maxw" placeholder="0" value="0"></div>
+            <div class="field"><label class="field-label">Format</label><select id="compress-format"><option value="image/jpeg">JPEG</option><option value="image/png">PNG</option><option value="image/webp">WebP</option></select></div>
+            <div class="btn-group"><button class="btn btn-primary" onclick="compressImage()">📦 Compress</button><button class="btn btn-secondary" onclick="downloadCompressed()">↓ Download</button></div>
+        </div>
+        <div class="panel"><div class="panel-label">Result</div><div id="compress-preview" style="text-align:center;min-height:180px;display:flex;align-items:center;justify-content:center;color:var(--text-muted);font-size:13px;">Upload an image to compress</div><div class="status-bar" id="compress-status"><div class="status-dot"></div><span>Ready</span></div></div>
+    </div>
+    <div class="ad-slot"><!-- Ad --></div>
+</div></div>
+
+<footer>
+    <p>&copy; 2025 QuickTools &mdash; Free Online Tools. All tools run locally. No data collected.</p>
+    <p style="margin-top:6px;"><a href="#qr">QR Suite</a> · <a href="#pdf">PDF</a> · <a href="#json">JSON</a> · <a href="#base64">Base64</a> · <a href="#color">Colors</a> · <a href="#word">Words</a> · <a href="#password">Password</a> · <a href="#markdown">Markdown</a> · <a href="#hash">Hash</a> · <a href="#textcase">Text Case</a> · <a href="#timestamp">Timestamp</a> · <a href="#urlenc">URL Encode</a> · <a href="#lorem">Lorem</a> · <a href="#imgcompress">Image Compress</a></p>
+</footer>
+<div class="toast" id="toast">Copied!</div>
+
+<script>
+/* ═══ NAV ═══ */
+function showHome(){document.getElementById('home-page').style.display='block';document.querySelectorAll('.tool-page').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));document.querySelector('[data-tool="home"]').classList.add('active');window.scrollTo(0,0);history.pushState(null,'',window.location.pathname)}
+function showTool(n){document.getElementById('home-page').style.display='none';document.querySelectorAll('.tool-page').forEach(p=>p.classList.remove('active'));const el=document.getElementById('tool-'+n);if(el)el.classList.add('active');document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));const nl=document.querySelector(`[data-tool="${n}"]`);if(nl)nl.classList.add('active');window.scrollTo(0,0);window.location.hash=n;if(n==='qr')generateQR();if(n==='color')updateColorFromPicker('#22c55e');if(n==='password')generatePassword();if(n==='markdown')renderMarkdown();if(n==='lorem')generateLorem();if(n==='timestamp')startTimestamp()}
+function handleHash(){const h=window.location.hash.replace('#','');const t=['qr','pdf','json','base64','color','word','password','markdown','hash','textcase','timestamp','urlenc','lorem','imgcompress'];if(t.includes(h))showTool(h);else showHome()}
+window.addEventListener('hashchange',handleHash);handleHash();
+
+/* ═══ TOAST ═══ */
+function showToast(m='Copied!'){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2000)}
+function copyText(t){navigator.clipboard.writeText(t).then(()=>showToast())}
+function copyOutput(id){copyText(document.getElementById(id).textContent||document.getElementById(id).innerText)}
+
+/* ═══ QR SUITE ═══ */
+let currentQRTab='url';
+function switchQRTab(tab,btn){currentQRTab=tab;document.querySelectorAll('#tool-qr .tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('#tool-qr .tab-content').forEach(t=>t.classList.remove('active'));btn.classList.add('active');document.getElementById('qr-tab-'+tab).classList.add('active');document.getElementById('price-preview-panel').style.display=tab==='pricelist'?'block':'none';if(tab==='pricelist')updatePricePreview();generateQR()}
+function getQRData(){switch(currentQRTab){case'url':return document.getElementById('qr-url-input').value.trim()||'https://quicktools.site';case'wifi':{const s=document.getElementById('qr-wifi-ssid').value,p=document.getElementById('qr-wifi-pass').value,e=document.getElementById('qr-wifi-enc').value;return`WIFI:T:${e};S:${s};P:${p};;`}case'vcard':{const n=document.getElementById('qr-vc-name').value,p=document.getElementById('qr-vc-phone').value,em=document.getElementById('qr-vc-email').value,o=document.getElementById('qr-vc-org').value,u=document.getElementById('qr-vc-url').value;return`BEGIN:VCARD\nVERSION:3.0\nFN:${n}\nTEL:${p}\nEMAIL:${em}\nORG:${o}\nURL:${u}\nEND:VCARD`}case'email':{const to=document.getElementById('qr-em-to').value,s=document.getElementById('qr-em-subject').value,b=document.getElementById('qr-em-body').value;return`mailto:${to}?subject=${encodeURIComponent(s)}&body=${encodeURIComponent(b)}`}case'sms':{const ph=document.getElementById('qr-sms-phone').value,msg=document.getElementById('qr-sms-msg').value,tp=document.getElementById('qr-sms-type').value;return tp==='tel'?`tel:${ph}`:`sms:${ph}${msg?'?body='+encodeURIComponent(msg):''}`}case'pricelist':return buildPriceListText();default:return'https://quicktools.site'}}
+function buildPriceListText(){const b=document.getElementById('pl-biz-name').value||'My Business',d=document.getElementById('pl-biz-desc').value,c=document.getElementById('pl-currency').value||'';let t=`${b}\n`;if(d)t+=`${d}\n`;t+='----------\n';document.querySelectorAll('.price-item-row').forEach(r=>{const n=r.querySelector('.pl-item-name').value,p=r.querySelector('.pl-item-price').value;if(n&&p)t+=`${n}: ${c} ${p}\n`});return t}
+function generateQR(){const d=getQRData(),c=document.getElementById('qr-output');c.innerHTML='';if(!d)return;try{new QRCode(c,{text:d,width:256,height:256,colorDark:'#000',colorLight:'#fff',correctLevel:QRCode.CorrectLevel.H})}catch(e){c.innerHTML='<p style="color:#ef4444;font-size:13px;">Data too large for QR</p>'}}
+function downloadQR(){const c=document.querySelector('#qr-output canvas');if(!c)return showToast('Generate QR first');const a=document.createElement('a');a.download='quicktools-qr.png';a.href=c.toDataURL('image/png');a.click();showToast('Downloaded!')}
+function addPriceItem(){const c=document.getElementById('price-items'),r=document.createElement('div');r.className='price-item-row';r.innerHTML='<input type="text" class="pl-item-name" placeholder="Item" oninput="updatePricePreview()"><input type="text" class="pl-item-price" placeholder="Price" oninput="updatePricePreview()"><button class="remove-item-btn" onclick="removePriceItem(this)">×</button>';c.appendChild(r)}
+function removePriceItem(b){if(document.querySelectorAll('.price-item-row').length>1){b.closest('.price-item-row').remove();updatePricePreview()}}
+function updatePricePreview(){const b=document.getElementById('pl-biz-name').value||'My Business',d=document.getElementById('pl-biz-desc').value||'',c=document.getElementById('pl-currency').value||'';let items='';document.querySelectorAll('.price-item-row').forEach(r=>{const n=r.querySelector('.pl-item-name').value,p=r.querySelector('.pl-item-price').value;if(n||p)items+=`<div class="item-line"><span class="item-name">${n||'—'}</span><span class="item-price">${c} ${p||'0'}</span></div>`});document.getElementById('price-preview').innerHTML=`<h3>${b}</h3>${d?`<div class="subtitle">${d}</div>`:''}<div>${items||'<div style="color:#999;font-size:13px;">Add items above</div>'}</div>`;generateQR()}
+function downloadPriceList(){const cv=document.createElement('canvas');cv.width=600;cv.height=Math.max(400,120+document.querySelectorAll('.price-item-row').length*40);const x=cv.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,cv.width,cv.height);x.fillStyle='#000';x.font='bold 28px sans-serif';const b=document.getElementById('pl-biz-name').value||'My Business';x.fillText(b,40,50);let y=70;const d=document.getElementById('pl-biz-desc').value;if(d){x.font='14px sans-serif';x.fillStyle='#666';x.fillText(d,40,y);y+=30}x.strokeStyle='#ddd';x.beginPath();x.moveTo(40,y);x.lineTo(560,y);x.stroke();y+=25;const c=document.getElementById('pl-currency').value||'';x.font='16px sans-serif';document.querySelectorAll('.price-item-row').forEach(r=>{const n=r.querySelector('.pl-item-name').value,p=r.querySelector('.pl-item-price').value;if(n&&p){x.fillStyle='#333';x.textAlign='left';x.fillText(n,40,y);x.fillStyle='#000';x.font='bold 16px sans-serif';x.textAlign='right';x.fillText(`${c} ${p}`,560,y);x.font='16px sans-serif';x.textAlign='left';y+=35}});const a=document.createElement('a');a.download='price-list.png';a.href=cv.toDataURL('image/png');a.click();showToast('Downloaded!')}
+
+/* ═══ PDF ═══ */
+let pdfMergeFiles=[],pdfWMFile=null,pdfImageFiles=[];
+function switchPDFTab(tab,btn){document.querySelectorAll('#tool-pdf .tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('#tool-pdf .tab-content').forEach(t=>t.classList.remove('active'));btn.classList.add('active');document.getElementById('pdf-tab-'+tab).classList.add('active')}
+async function createPDF(){const{PDFDocument,rgb,StandardFonts}=PDFLib;const doc=await PDFDocument.create();const font=await doc.embedFont(StandardFonts.Helvetica);const bold=await doc.embedFont(StandardFonts.HelveticaBold);const title=document.getElementById('pdf-title').value||'';const content=document.getElementById('pdf-content').value||'';const fs=parseInt(document.getElementById('pdf-fontsize').value);let page=doc.addPage([595,842]);let y=800;const m=50,mw=495;if(title){page.drawText(title,{x:m,y,font:bold,size:22,color:rgb(0,0,0)});y-=36}for(const line of content.split('\n')){const words=line.split(' ');let cl='';for(const w of words){const t=cl?cl+' '+w:w;if(font.widthOfTextAtSize(t,fs)>mw&&cl){if(y<60){page=doc.addPage([595,842]);y=800}page.drawText(cl,{x:m,y,font,size:fs,color:rgb(0,0,0)});y-=fs*1.5;cl=w}else cl=t}if(cl){if(y<60){page=doc.addPage([595,842]);y=800}page.drawText(cl,{x:m,y,font,size:fs,color:rgb(0,0,0)});y-=fs*1.5}else y-=fs}downloadBlob(await doc.save(),'document.pdf','application/pdf');setPDFStatus('PDF created!')}
+function handleMergePDFs(i){pdfMergeFiles=Array.from(i.files);document.getElementById('pdf-merge-list').innerHTML=pdfMergeFiles.map((f,i)=>`<div style="padding:6px 0;font-size:13px;color:var(--text-secondary);">${i+1}. ${f.name} (${(f.size/1024).toFixed(1)}KB)</div>`).join('')}
+async function mergePDFs(){if(pdfMergeFiles.length<2)return showToast('Select 2+ PDFs');const{PDFDocument}=PDFLib;const md=await PDFDocument.create();for(const f of pdfMergeFiles){const b=await f.arrayBuffer();const s=await PDFDocument.load(b);(await md.copyPages(s,s.getPageIndices())).forEach(p=>md.addPage(p))}downloadBlob(await md.save(),'merged.pdf','application/pdf');setPDFStatus(`Merged ${pdfMergeFiles.length} PDFs!`)}
+function handleWatermarkPDF(i){pdfWMFile=i.files[0];setPDFStatus(`Loaded: ${pdfWMFile.name}`)}
+async function addWatermark(){if(!pdfWMFile)return showToast('Upload PDF first');const t=document.getElementById('pdf-wm-text').value||'DRAFT';const{PDFDocument,rgb,StandardFonts,degrees}=PDFLib;const doc=await PDFDocument.load(await pdfWMFile.arrayBuffer());const font=await doc.embedFont(StandardFonts.HelveticaBold);doc.getPages().forEach(p=>{const{width,height}=p.getSize();p.drawText(t,{x:width/2-100,y:height/2-20,size:60,font,color:rgb(0.9,0.1,0.1),opacity:0.15,rotate:degrees(-45)})});downloadBlob(await doc.save(),'watermarked.pdf','application/pdf');setPDFStatus(`Watermark added!`)}
+function handleImagesToPDF(i){pdfImageFiles=Array.from(i.files);document.getElementById('pdf-img-list').innerHTML=pdfImageFiles.map((f,i)=>`<div style="padding:6px 0;font-size:13px;color:var(--text-secondary);">${i+1}. ${f.name}</div>`).join('')}
+async function imagesToPDF(){if(!pdfImageFiles.length)return showToast('Select images');const{PDFDocument}=PDFLib;const doc=await PDFDocument.create();for(const f of pdfImageFiles){const b=await f.arrayBuffer();const img=f.type==='image/png'?await doc.embedPng(b):await doc.embedJpg(b);const d=img.scale(1);const p=doc.addPage([d.width,d.height]);p.drawImage(img,{x:0,y:0,width:d.width,height:d.height})}downloadBlob(await doc.save(),'images.pdf','application/pdf');setPDFStatus(`PDF with ${pdfImageFiles.length} pages!`)}
+function setPDFStatus(m){document.getElementById('pdf-status').innerHTML=`<div class="status-dot"></div><span>${m}</span>`}
+function downloadBlob(d,n,t){const b=new Blob([d],{type:t});const u=URL.createObjectURL(b);const a=document.createElement('a');a.href=u;a.download=n;a.click();URL.revokeObjectURL(u);showToast('Downloaded!')}
+
+/* ═══ JSON ═══ */
+function formatJSON(){const i=document.getElementById('json-input').value.trim(),o=document.getElementById('json-output');if(!i)return;try{o.textContent=JSON.stringify(JSON.parse(i),null,2);o.style.color='#22c55e';document.getElementById('json-status').innerHTML='<div class="status-dot"></div><span>Valid — Beautified</span>'}catch(e){o.textContent='❌ '+e.message;o.style.color='#ef4444';document.getElementById('json-status').innerHTML='<div class="status-dot error"></div><span>Invalid</span>'}}
+function minifyJSON(){const i=document.getElementById('json-input').value.trim(),o=document.getElementById('json-output');if(!i)return;try{o.textContent=JSON.stringify(JSON.parse(i));o.style.color='#22c55e';document.getElementById('json-status').innerHTML='<div class="status-dot"></div><span>Minified</span>'}catch(e){o.textContent='❌ '+e.message;o.style.color='#ef4444';document.getElementById('json-status').innerHTML='<div class="status-dot error"></div><span>Invalid</span>'}}
+function validateJSON(){const i=document.getElementById('json-input').value.trim(),o=document.getElementById('json-output');if(!i)return;try{JSON.parse(i);o.textContent='✅ Valid JSON!';o.style.color='#22c55e';document.getElementById('json-status').innerHTML='<div class="status-dot"></div><span>Valid</span>'}catch(e){o.textContent='❌ '+e.message;o.style.color='#ef4444';document.getElementById('json-status').innerHTML='<div class="status-dot error"></div><span>Invalid</span>'}}
+
+/* ═══ BASE64 ═══ */
+const b64D=document.getElementById('b64-file-drop');b64D.addEventListener('dragover',e=>{e.preventDefault();b64D.classList.add('dragover')});b64D.addEventListener('dragleave',()=>b64D.classList.remove('dragover'));b64D.addEventListener('drop',e=>{e.preventDefault();b64D.classList.remove('dragover');if(e.dataTransfer.files.length)imageToBase64({files:e.dataTransfer.files})});
+function imageToBase64(i){const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{document.getElementById('base64-output').textContent=r.result;document.getElementById('base64-status').innerHTML=`<div class="status-dot"></div><span>${f.name} — ${(r.result.length/1024).toFixed(1)}KB</span>`};r.readAsDataURL(f)}
+function base64ToImage(){let b=document.getElementById('base64-decode-input').value.trim();if(!b)return;if(!b.startsWith('data:'))b='data:image/png;base64,'+b;document.getElementById('base64-image-preview').innerHTML=`<img src="${b}" style="max-width:100%;max-height:400px;border-radius:8px;border:1px solid var(--border);">`}
+
+/* ═══ COLOR ═══ */
+function updateColorFromPicker(hex){document.getElementById('color-preview').style.background=hex;document.getElementById('color-hex').value=hex;document.getElementById('color-picker').value=hex;const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);document.getElementById('color-rgb').value=`rgb(${r}, ${g}, ${b})`;const rn=r/255,gn=g/255,bn=b/255,mx=Math.max(rn,gn,bn),mn=Math.min(rn,gn,bn);let h,s,l=(mx+mn)/2;if(mx===mn){h=s=0}else{const d=mx-mn;s=l>0.5?d/(2-mx-mn):d/(mx+mn);switch(mx){case rn:h=((gn-bn)/d+(gn<bn?6:0))/6;break;case gn:h=((bn-rn)/d+2)/6;break;case bn:h=((rn-gn)/d+4)/6;break}}document.getElementById('color-hsl').value=`hsl(${Math.round(h*360)}, ${Math.round(s*100)}%, ${Math.round(l*100)}%)`;document.getElementById('color-css').value=`--color: ${hex};`;generatePalette(hex)}
+function updateColorFromHex(v){if(/^#[0-9a-fA-F]{6}$/.test(v))updateColorFromPicker(v)}
+function generatePalette(hex){const r=parseInt(hex.slice(1,3),16),g=parseInt(hex.slice(3,5),16),b=parseInt(hex.slice(5,7),16);const c=[hex,`#${((r+60)%256).toString(16).padStart(2,'0')}${((g+30)%256).toString(16).padStart(2,'0')}${((b+90)%256).toString(16).padStart(2,'0')}`,`#${((r+120)%256).toString(16).padStart(2,'0')}${((g+80)%256).toString(16).padStart(2,'0')}${((b+40)%256).toString(16).padStart(2,'0')}`,`#${((r+180)%256).toString(16).padStart(2,'0')}${((g+150)%256).toString(16).padStart(2,'0')}${((b+120)%256).toString(16).padStart(2,'0')}`,`#${(255-r).toString(16).padStart(2,'0')}${(255-g).toString(16).padStart(2,'0')}${(255-b).toString(16).padStart(2,'0')}`];document.getElementById('color-palette').innerHTML=c.map(x=>`<div onclick="updateColorFromPicker('${x}')" style="height:55px;border-radius:8px;background:${x};cursor:pointer;border:1px solid var(--border);transition:transform .15s" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"></div>`).join('');const sh=[];for(let i=0;i<5;i++){const f=.2+i*.2;sh.push(`#${Math.round(r*f).toString(16).padStart(2,'0')}${Math.round(g*f).toString(16).padStart(2,'0')}${Math.round(b*f).toString(16).padStart(2,'0')}`)}document.getElementById('color-shades').innerHTML=sh.map(x=>`<div onclick="updateColorFromPicker('${x}')" style="height:55px;border-radius:8px;background:${x};cursor:pointer;border:1px solid var(--border);transition:transform .15s" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"></div>`).join('')}
+
+/* ═══ WORD ═══ */
+function countWords(){const t=document.getElementById('word-input').value;const ch=t.length,cns=t.replace(/\s/g,'').length;const w=t.trim()?t.trim().split(/\s+/).length:0;const s=t.trim()?(t.match(/[.!?]+/g)||[]).length||(t.trim()?1:0):0;const p=t.trim()?t.split(/\n\s*\n/).filter(p=>p.trim()).length:0;const m=Math.floor(w/200),sc=Math.round((w%200)/200*60);document.getElementById('stat-words').textContent=w.toLocaleString();document.getElementById('stat-chars').textContent=ch.toLocaleString();document.getElementById('stat-chars-no-space').textContent=cns.toLocaleString();document.getElementById('stat-sentences').textContent=s.toLocaleString();document.getElementById('stat-paragraphs').textContent=p.toLocaleString();document.getElementById('stat-readtime').textContent=m>0?`${m}m ${sc}s`:`${sc}s`}
+
+/* ═══ PASSWORD ═══ */
+function generatePassword(){const len=parseInt(document.getElementById('pw-length').value);const up=document.getElementById('pw-upper').checked,lo=document.getElementById('pw-lower').checked,nm=document.getElementById('pw-numbers').checked,sy=document.getElementById('pw-symbols').checked,na=document.getElementById('pw-no-ambiguous').checked;let ch='';if(up)ch+=na?'ABCDEFGHJKMNPQRSTUVWXYZ':'ABCDEFGHIJKLMNOPQRSTUVWXYZ';if(lo)ch+=na?'abcdefghjkmnpqrstuvwxyz':'abcdefghijklmnopqrstuvwxyz';if(nm)ch+=na?'23456789':'0123456789';if(sy)ch+='!@#$%^&*()_+-=[]{}|;:,.<>?';if(!ch)ch='abcdefghijklmnopqrstuvwxyz';const ar=new Uint32Array(len);crypto.getRandomValues(ar);let pw='';for(let i=0;i<len;i++)pw+=ch[ar[i]%ch.length];document.getElementById('password-display').textContent=pw;const ent=Math.log2(ch.length)*len;let st,co,w;if(ent<30){st='Very Weak';co='#ef4444';w='15%'}else if(ent<50){st='Weak';co='#f97316';w='30%'}else if(ent<70){st='Fair';co='#f59e0b';w='50%'}else if(ent<90){st='Strong';co='#22c55e';w='75%'}else{st='Very Strong';co='#22c55e';w='100%'}document.getElementById('strength-fill').style.cssText=`width:${w};background:${co}`;document.getElementById('strength-label').innerHTML=`<span>Strength: <strong style="color:${co}">${st}</strong> (${Math.round(ent)} bits)</span>`}
+
+/* ═══ MARKDOWN ═══ */
+function renderMarkdown(){document.getElementById('md-output').innerHTML=marked.parse(document.getElementById('md-input').value)}
+
+/* ═══ HASH ═══ */
+async function hashText(t,a){const d=new TextEncoder().encode(t);const h=await crypto.subtle.digest(a,d);return Array.from(new Uint8Array(h)).map(b=>b.toString(16).padStart(2,'0')).join('')}
+async function generateHashes(){const t=document.getElementById('hash-input').value;if(!t){document.getElementById('hash-sha256').value='';document.getElementById('hash-sha512').value='';document.getElementById('hash-sha1').value='';return}document.getElementById('hash-sha256').value=await hashText(t,'SHA-256');document.getElementById('hash-sha512').value=await hashText(t,'SHA-512');document.getElementById('hash-sha1').value=await hashText(t,'SHA-1')}
+async function hashFile(i){const f=i.files[0];if(!f)return;const b=await f.arrayBuffer();const hex=buf=>Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');document.getElementById('hash-sha256').value=hex(await crypto.subtle.digest('SHA-256',b));document.getElementById('hash-sha512').value=hex(await crypto.subtle.digest('SHA-512',b));document.getElementById('hash-sha1').value=hex(await crypto.subtle.digest('SHA-1',b));document.getElementById('hash-input').value=`[File: ${f.name}]`}
+
+/* ═══ TEXT CASE ═══ */
+function convertCase(type){const i=document.getElementById('case-input').value;let o='';switch(type){case'upper':o=i.toUpperCase();break;case'lower':o=i.toLowerCase();break;case'title':o=i.replace(/\w\S*/g,t=>t.charAt(0).toUpperCase()+t.substr(1).toLowerCase());break;case'sentence':o=i.toLowerCase().replace(/(^\s*\w|[.!?]\s+\w)/g,c=>c.toUpperCase());break;case'camel':o=i.toLowerCase().replace(/[^a-zA-Z0-9]+(.)/g,(_,c)=>c.toUpperCase());break;case'snake':o=i.toLowerCase().replace(/\s+/g,'_').replace(/[^a-z0-9_]/g,'');break;case'kebab':o=i.toLowerCase().replace(/\s+/g,'-').replace(/[^a-z0-9-]/g,'');break;case'toggle':o=i.split('').map(c=>c===c.toUpperCase()?c.toLowerCase():c.toUpperCase()).join('');break}document.getElementById('case-output').textContent=o}
+
+/* ═══ TIMESTAMP ═══ */
+let tsI;function startTimestamp(){clearInterval(tsI);const u=()=>document.getElementById('live-timestamp').textContent=Math.floor(Date.now()/1000);u();tsI=setInterval(u,1000)}
+function timestampToDate(){const v=document.getElementById('ts-input').value.trim();if(!v)return;const d=new Date(parseInt(v)*(v.length>10?1:1000));document.getElementById('ts-date-output').value=d.toString()!=='Invalid Date'?d.toISOString().replace('T',' ').replace('Z',' UTC')+' | '+d.toLocaleString():'Invalid'}
+function dateToTimestamp(){const v=document.getElementById('ts-date-input').value.trim();if(!v)return;const d=new Date(v);document.getElementById('ts-output').value=d.toString()!=='Invalid Date'?Math.floor(d.getTime()/1000):'Invalid'}
+
+/* ═══ URL ═══ */
+function urlEncode(){document.getElementById('url-output').textContent=encodeURIComponent(document.getElementById('url-input').value)}
+function urlDecode(){try{document.getElementById('url-output').textContent=decodeURIComponent(document.getElementById('url-input').value)}catch(e){document.getElementById('url-output').textContent='❌ Invalid'}}
+
+/* ═══ LOREM ═══ */
+const LW='lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum'.split(' ');
+function rL(n){let o=[];for(let i=0;i<n;i++)o.push(LW[Math.floor(Math.random()*LW.length)]);o[0]=o[0][0].toUpperCase()+o[0].slice(1);return o.join(' ')+'.'}
+function generateLorem(){const c=parseInt(document.getElementById('lorem-count').value),t=document.getElementById('lorem-type').value;let o='';if(t==='words'){let w=[];for(let i=0;i<c;i++)w.push(LW[Math.floor(Math.random()*LW.length)]);w[0]=w[0][0].toUpperCase()+w[0].slice(1);o=w.join(' ')}else if(t==='sentences'){let s=[];for(let i=0;i<c;i++)s.push(rL(8+Math.floor(Math.random()*12)));o=s.join(' ')}else{let p=[];for(let i=0;i<c;i++){let s=[];for(let j=0;j<3+Math.floor(Math.random()*4);j++)s.push(rL(6+Math.floor(Math.random()*14)));p.push(s.join(' '))}o=p.join('\n\n')}document.getElementById('lorem-output').textContent=o}
+
+/* ═══ IMAGE COMPRESS ═══ */
+let compBlob=null,origFile=null;
+function handleCompressImage(i){origFile=i.files[0];if(origFile)compressImage()}
+function compressImage(){if(!origFile)return showToast('Upload image first');const q=parseInt(document.getElementById('compress-quality').value)/100,mw=parseInt(document.getElementById('compress-maxw').value)||0,fmt=document.getElementById('compress-format').value;const img=new Image();img.onload=()=>{const cv=document.createElement('canvas');let w=img.width,h=img.height;if(mw>0&&w>mw){h=Math.round(h*mw/w);w=mw}cv.width=w;cv.height=h;cv.getContext('2d').drawImage(img,0,0,w,h);cv.toBlob(blob=>{compBlob=blob;document.getElementById('compress-preview').innerHTML=`<img src="${URL.createObjectURL(blob)}" style="max-width:100%;max-height:300px;border-radius:8px;">`;const os=(origFile.size/1024).toFixed(1),ns=(blob.size/1024).toFixed(1),sv=((1-blob.size/origFile.size)*100).toFixed(0);document.getElementById('compress-status').innerHTML=`<div class="status-dot"></div><span>${os}KB → ${ns}KB (${sv}% smaller) • ${w}×${h}px</span>`},fmt,q)};img.src=URL.createObjectURL(origFile)}
+function downloadCompressed(){if(!compBlob)return showToast('Compress first');const ext={'.image/jpeg':'.jpg','image/png':'.png','image/webp':'.webp'}[compBlob.type]||'.jpg';const a=document.createElement('a');a.href=URL.createObjectURL(compBlob);a.download='compressed'+ext;a.click();showToast('Downloaded!')}
+</script>
+</body>
+</html>
