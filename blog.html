@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QuickTools Blog — Free Online Tools, Tips & Guides</title>
+    <meta name="description" content="Tips, guides and tutorials on using free online tools. GPA calculation guide, QR code tips, PDF editing, password security, BMI health guide & more.">
+    <meta name="keywords" content="how to calculate GPA, free QR code generator, online calculator, BMI chart, password generator, PDF editor free, percentage calculator, tip calculator, age calculator, unit converter">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.quicktools.sbs/blog">
+    <meta property="og:title" content="QuickTools Blog — Free Tools & Guides">
+    <meta property="og:description" content="Guides on GPA calculation, QR codes, password security, BMI & more. All with free tools.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.quicktools.sbs/blog">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+:root{--bg:#050507;--bg2:#0c0c10;--bg3:#131318;--border:#1e1e28;--t1:#f0f0f5;--t2:#a1a1aa;--t3:#71717a;--green:#10b981;--greenBg:rgba(16,185,129,.08)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh;-webkit-font-smoothing:antialiased}
+a{color:var(--green);text-decoration:none}
+a:hover{text-decoration:underline}
+
+.wrap{max-width:760px;margin:0 auto;padding:0 24px}
+
+/* NAV */
+.blog-nav{padding:20px 0;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);margin-bottom:40px}
+.blog-logo{font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px}
+.blog-logo-dot{width:28px;height:28px;border-radius:7px;background:var(--green);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#000}
+.blog-logo span{color:var(--green)}
+.blog-nav a{font-size:13px;color:var(--t2)}
+
+.blog-header{text-align:center;margin-bottom:50px}
+.blog-header h1{font-family:'Newsreader',serif;font-size:clamp(32px,5vw,48px);font-weight:700;letter-spacing:-1px;line-height:1.15;margin-bottom:10px}
+.blog-header p{color:var(--t3);font-size:15px}
+
+/* ARTICLE CARDS */
+.articles{display:flex;flex-direction:column;gap:20px}
+.article{background:var(--bg3);border:1px solid var(--border);border-radius:14px;padding:28px;transition:.2s;cursor:pointer}
+.article:hover{border-color:#2a2a38;transform:translateY(-1px)}
+.article-cat{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;display:inline-block;padding:3px 10px;border-radius:4px}
+.article h2{font-family:'Newsreader',serif;font-size:22px;font-weight:600;line-height:1.3;margin-bottom:8px}
+.article p{color:var(--t2);font-size:14px;line-height:1.7;margin-bottom:12px}
+.article-meta{font-size:11px;color:var(--t3);display:flex;gap:16px}
+.article-cta{display:inline-flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:var(--green)}
+
+/* ARTICLE FULL */
+.article-full{display:none}
+.article-full.active{display:block}
+.article-back{display:inline-flex;align-items:center;gap:6px;color:var(--t3);font-size:13px;cursor:pointer;margin-bottom:24px;background:none;border:none;font-family:inherit}
+.article-back:hover{color:var(--green)}
+.article-full h1{font-family:'Newsreader',serif;font-size:clamp(28px,4vw,40px);font-weight:700;line-height:1.2;letter-spacing:-1px;margin-bottom:12px}
+.article-full .meta{font-size:12px;color:var(--t3);margin-bottom:32px;padding-bottom:20px;border-bottom:1px solid var(--border)}
+.prose{font-size:15.5px;line-height:1.85;color:var(--t2)}
+.prose h2{font-family:'Newsreader',serif;font-size:24px;font-weight:600;color:var(--t1);margin:36px 0 12px;letter-spacing:-0.5px}
+.prose h3{font-size:18px;font-weight:600;color:var(--t1);margin:28px 0 10px}
+.prose p{margin-bottom:16px}
+.prose strong{color:var(--t1)}
+.prose ul,.prose ol{margin:12px 0 16px;padding-left:24px}
+.prose li{margin-bottom:8px}
+.prose .tool-box{background:var(--greenBg);border:1px solid rgba(16,185,129,.2);border-radius:10px;padding:18px 22px;margin:20px 0}
+.prose .tool-box-title{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--green);margin-bottom:6px}
+.prose .tool-box a{font-size:15px;font-weight:600}
+.prose code{font-family:'JetBrains Mono',monospace;background:var(--bg3);padding:2px 6px;border-radius:4px;font-size:13px}
+.prose table{width:100%;border-collapse:collapse;margin:16px 0;font-size:14px}
+.prose th{text-align:left;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--t3);padding:10px;border-bottom:1px solid var(--border)}
+.prose td{padding:10px;border-bottom:1px solid var(--border)}
+
+/* SHARE */
+.share-row{display:flex;gap:8px;margin:30px 0;padding:20px 0;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.share-row a,.share-row button{padding:8px 16px;border-radius:8px;font-size:12px;font-weight:600;border:none;cursor:pointer;font-family:inherit;color:#fff;text-decoration:none;transition:.15s}
+.share-row a:hover,.share-row button:hover{transform:translateY(-1px)}
+
+footer{border-top:1px solid var(--border);padding:30px 0;text-align:center;color:var(--t3);font-size:11px;margin-top:50px}
+    </style>
+</head>
+<body>
+<div class="wrap">
+
+<nav class="blog-nav">
+    <div class="blog-logo"><div class="blog-logo-dot">Q</div>Quick<span>Tools</span> Blog</div>
+    <a href="https://www.quicktools.sbs">← Back to Tools</a>
+</nav>
+
+<!-- ARTICLES LIST -->
+<div id="articles-list">
+<div class="blog-header">
+    <h1>Free Tools, Tips & Guides</h1>
+    <p>Learn how to use free online tools to make your life easier.</p>
+</div>
+
+<div class="articles">
+
+<!-- ARTICLE 1 -->
+<div class="article" onclick="showArticle('gpa')">
+    <div class="article-cat" style="background:rgba(16,185,129,.1);color:#10b981">Student Guide</div>
+    <h2>How to Calculate Your GPA: Complete Guide for University Students</h2>
+    <p>Learn exactly how GPA is calculated, what Cum Laude means, and how to quickly figure out your semester GPA with a free calculator. Works for any grading system.</p>
+    <div class="article-meta"><span>5 min read</span><span>Updated 2025</span></div>
+    <div class="article-cta">Read guide → Use free GPA calculator</div>
+</div>
+
+<!-- ARTICLE 2 -->
+<div class="article" onclick="showArticle('qr')">
+    <div class="article-cat" style="background:rgba(59,130,246,.1);color:#3b82f6">Business</div>
+    <h2>How to Create a QR Code Menu for Your Restaurant or Business in Kenya</h2>
+    <p>Step-by-step guide to creating a QR code price list or menu for your business. Free, no app needed, works on any phone. Perfect for restaurants, salons, and shops.</p>
+    <div class="article-meta"><span>4 min read</span><span>Updated 2025</span></div>
+    <div class="article-cta">Read guide → Create free QR menu</div>
+</div>
+
+<!-- ARTICLE 3 -->
+<div class="article" onclick="showArticle('passwords')">
+    <div class="article-cat" style="background:rgba(239,68,68,.1);color:#ef4444">Security</div>
+    <h2>Why You Need a Password Generator (And How to Create Unbreakable Passwords)</h2>
+    <p>Most people use weak passwords. Learn why random passwords matter, how password strength works, and generate crypto-secure passwords instantly for free.</p>
+    <div class="article-meta"><span>4 min read</span><span>Updated 2025</span></div>
+    <div class="article-cta">Read guide → Generate secure password</div>
+</div>
+
+<!-- ARTICLE 4 -->
+<div class="article" onclick="showArticle('bmi')">
+    <div class="article-cat" style="background:rgba(168,85,247,.1);color:#a855f7">Health</div>
+    <h2>BMI Calculator: What Your Body Mass Index Really Means</h2>
+    <p>Understand what BMI measures, its categories, limitations, and how to calculate yours instantly. Includes health tips for each BMI range.</p>
+    <div class="article-meta"><span>4 min read</span><span>Updated 2025</span></div>
+    <div class="article-cta">Read guide → Calculate your BMI</div>
+</div>
+
+<!-- ARTICLE 5 -->
+<div class="article" onclick="showArticle('student')">
+    <div class="article-cat" style="background:rgba(245,158,11,.1);color:#f59e0b">Productivity</div>
+    <h2>10 Free Online Tools Every University Student Needs in 2025</h2>
+    <p>From GPA calculators to Pomodoro timers, these free tools will help you study smarter, stay organized, and get better grades without spending a cent.</p>
+    <div class="article-meta"><span>6 min read</span><span>Updated 2025</span></div>
+    <div class="article-cta">Read the full list</div>
+</div>
+
+<!-- ARTICLE 6 -->
+<div class="article" onclick="showArticle('developer')">
+    <div class="article-cat" style="background:rgba(59,130,246,.1);color:#3b82f6">Developer</div>
+    <h2>Best Free Developer Tools You Can Use in Your Browser</h2>
+    <p>JSON formatting, Base64 encoding, hashing, timestamps, URL encoding, text diff — all in one place with zero installs. Bookmark these tools for instant productivity.</p>
+    <div class="article-meta"><span>5 min read</span><span>Updated 2025</span></div>
+    <div class="article-cta">Read the full list</div>
+</div>
+
+</div><!-- /articles -->
+</div><!-- /articles-list -->
+
+<!-- ═══ FULL ARTICLES ═══ -->
+
+<!-- GPA ARTICLE -->
+<div id="article-gpa" class="article-full">
+<button class="article-back" onclick="backToList()">← Back to all articles</button>
+<h1>How to Calculate Your GPA: Complete Guide for University Students</h1>
+<div class="meta">Student Guide • 5 min read • Updated 2025</div>
+<div class="prose">
+<p>Your <strong>Grade Point Average (GPA)</strong> is one of the most important numbers in your academic life. It determines scholarship eligibility, honors classifications, and even your first job opportunities after graduation. But many students don't actually know how it's calculated.</p>
+
+<h2>How GPA Is Calculated</h2>
+<p>GPA uses a simple formula: multiply each course's <strong>grade points</strong> by its <strong>credit hours</strong>, add them all up, then divide by total credit hours.</p>
+
+<p>The standard grade point scale used by most universities:</p>
+<table>
+<thead><tr><th>Letter Grade</th><th>Grade Points</th></tr></thead>
+<tbody>
+<tr><td>A</td><td><strong>4.0</strong></td></tr>
+<tr><td>A-</td><td>3.7</td></tr>
+<tr><td>B+</td><td>3.3</td></tr>
+<tr><td>B</td><td>3.0</td></tr>
+<tr><td>B-</td><td>2.7</td></tr>
+<tr><td>C+</td><td>2.3</td></tr>
+<tr><td>C</td><td>2.0</td></tr>
+<tr><td>D</td><td>1.0</td></tr>
+<tr><td>F</td><td>0.0</td></tr>
+</tbody>
+</table>
+
+<h2>Example Calculation</h2>
+<p>Let's say you take 4 courses this semester:</p>
+<ul>
+<li>Math (4 credits) — Grade: A (4.0) → 4 × 4.0 = <strong>16.0</strong></li>
+<li>English (3 credits) — Grade: B+ (3.3) → 3 × 3.3 = <strong>9.9</strong></li>
+<li>Science (3 credits) — Grade: B (3.0) → 3 × 3.0 = <strong>9.0</strong></li>
+<li>History (2 credits) — Grade: A- (3.7) → 2 × 3.7 = <strong>7.4</strong></li>
+</ul>
+<p><strong>Total quality points:</strong> 16.0 + 9.9 + 9.0 + 7.4 = 42.3<br>
+<strong>Total credits:</strong> 4 + 3 + 3 + 2 = 12<br>
+<strong>GPA:</strong> 42.3 ÷ 12 = <strong>3.53</strong></p>
+
+<h2>What GPA Do You Need?</h2>
+<ul>
+<li><strong>3.9+ Summa Cum Laude</strong> — Highest honors</li>
+<li><strong>3.7+ Magna Cum Laude</strong> — High honors</li>
+<li><strong>3.5+ Cum Laude</strong> — Honors</li>
+<li><strong>3.0+ Dean's List</strong> — Good standing</li>
+<li><strong>2.0+ Passing</strong> — Minimum to graduate</li>
+<li><strong>Below 2.0</strong> — Academic probation risk</li>
+</ul>
+
+<div class="tool-box">
+<div class="tool-box-title">🎓 Free Tool</div>
+<a href="https://www.quicktools.sbs/#gpa">→ Calculate Your GPA Instantly (Free GPA Calculator)</a>
+<p style="font-size:13px;color:var(--t2);margin-top:4px">Add your courses, credits, and grades — get your GPA in seconds. No signup needed.</p>
+</div>
+
+<h2>Tips to Improve Your GPA</h2>
+<ol>
+<li><strong>Prioritize high-credit courses</strong> — an A in a 4-credit course affects GPA more than a 2-credit one</li>
+<li><strong>Use the Pomodoro technique</strong> — study in focused 25-minute bursts with 5-minute breaks</li>
+<li><strong>Don't skip easy classes</strong> — they're easy A's that boost your GPA</li>
+<li><strong>Retake failed courses</strong> — most universities replace the old grade</li>
+</ol>
+
+<div class="tool-box">
+<div class="tool-box-title">🍅 Study Smarter</div>
+<a href="https://www.quicktools.sbs/#pomodoro">→ Try the Free Pomodoro Timer</a>
+<p style="font-size:13px;color:var(--t2);margin-top:4px">Proven technique used by top students worldwide. 25 min focus + 5 min break.</p>
+</div>
+</div>
+
+<div class="share-row">
+    <a href="https://wa.me/?text=How%20to%20calculate%20your%20GPA%20%2B%20free%20GPA%20calculator%20%F0%9F%8E%93%0Ahttps%3A%2F%2Fwww.quicktools.sbs%2Fblog%23gpa" style="background:#25D366" target="_blank">💬 Share on WhatsApp</a>
+    <a href="https://twitter.com/intent/tweet?text=How%20to%20calculate%20your%20GPA%20%2B%20free%20calculator%20%F0%9F%8E%93%0Ahttps%3A%2F%2Fwww.quicktools.sbs%2Fblog%23gpa" style="background:#1DA1F2" target="_blank">𝕏 Tweet</a>
+</div>
+</div>
+
+<!-- QR ARTICLE -->
+<div id="article-qr" class="article-full">
+<button class="article-back" onclick="backToList()">← Back to all articles</button>
+<h1>How to Create a QR Code Menu for Your Restaurant or Business in Kenya</h1>
+<div class="meta">Business Guide • 4 min read • Updated 2025</div>
+<div class="prose">
+<p>QR code menus have become essential for restaurants, cafes, salons, and shops across Kenya. Customers scan the code with their phone camera and instantly see your menu or price list. No app needed, no printed menus to update.</p>
+
+<h2>Why Use QR Code Menus?</h2>
+<ul>
+<li><strong>Free to create</strong> — no monthly subscription needed</li>
+<li><strong>Easy to update</strong> — change prices anytime, just generate a new code</li>
+<li><strong>Professional look</strong> — customers see a clean digital menu</li>
+<li><strong>Saves money</strong> — no printing costs</li>
+<li><strong>Hygienic</strong> — no shared physical menus</li>
+</ul>
+
+<h2>How to Create Your QR Menu in 3 Minutes</h2>
+<ol>
+<li>Go to <a href="https://www.quicktools.sbs/#qr">QuickTools QR Code Suite</a></li>
+<li>Click the <strong>"Price List"</strong> tab</li>
+<li>Enter your business name (e.g., "Mama Njeri's Kitchen")</li>
+<li>Add your items and prices in KES</li>
+<li>The QR code generates automatically</li>
+<li>Download the QR code image</li>
+<li>Print it and place at your counter, door, or tables</li>
+</ol>
+
+<div class="tool-box">
+<div class="tool-box-title">⣿ Free QR Menu Generator</div>
+<a href="https://www.quicktools.sbs/#qr">→ Create Your QR Code Menu Now (Free)</a>
+<p style="font-size:13px;color:var(--t2);margin-top:4px">Supports URL, WiFi, Contact, Email, SMS, and Price List QR codes. Download as PNG.</p>
+</div>
+
+<h2>Where to Put Your QR Code</h2>
+<ul>
+<li><strong>At the entrance</strong> — print on an A4 or A5 poster</li>
+<li><strong>On each table</strong> — laminate a small card</li>
+<li><strong>On your WhatsApp status</strong> — share digitally</li>
+<li><strong>Business cards</strong> — add the QR code to your card</li>
+<li><strong>Social media</strong> — post it on Facebook and Instagram</li>
+</ul>
+
+<h2>Pro Tips</h2>
+<p>Use the <strong>WiFi QR Code</strong> feature to create a code that lets customers connect to your WiFi automatically — they scan it and connect instantly. Great for cafes and restaurants that offer free WiFi.</p>
+
+<div class="tool-box">
+<div class="tool-box-title">📄 Also Useful</div>
+<a href="https://www.quicktools.sbs/#invoice">→ Create Professional Invoices (Free PDF Generator)</a>
+<p style="font-size:13px;color:var(--t2);margin-top:4px">Generate and download invoices in PDF format with your business details.</p>
+</div>
+</div>
+
+<div class="share-row">
+    <a href="https://wa.me/?text=How%20to%20create%20a%20free%20QR%20code%20menu%20for%20your%20business%20%F0%9F%93%B1%0Ahttps%3A%2F%2Fwww.quicktools.sbs%2Fblog%23qr" style="background:#25D366" target="_blank">💬 Share on WhatsApp</a>
+    <a href="https://twitter.com/intent/tweet?text=Create%20a%20free%20QR%20code%20menu%20for%20your%20business%20%F0%9F%93%B1%0Ahttps%3A%2F%2Fwww.quicktools.sbs%2Fblog%23qr" style="background:#1DA1F2" target="_blank">𝕏 Tweet</a>
+</div>
+</div>
+
+<!-- PASSWORD ARTICLE -->
+<div id="article-passwords" class="article-full">
+<button class="article-back" onclick="backToList()">← Back to all articles</button>
+<h1>Why You Need a Password Generator (And How to Create Unbreakable Passwords)</h1>
+<div class="meta">Security Guide • 4 min read • Updated 2025</div>
+<div class="prose">
+<p>The most common password in the world is still <code>123456</code>. If that's yours (or anything similar), your accounts are at serious risk. Here's why random passwords matter and how to create them properly.</p>
+
+<h2>How Fast Can Passwords Be Cracked?</h2>
+<table>
+<thead><tr><th>Password Type</th><th>Example</th><th>Crack Time</th></tr></thead>
+<tbody>
+<tr><td>6 characters, lowercase</td><td><code>hello1</code></td><td><strong>Instant</strong></td></tr>
+<tr><td>8 characters, mixed</td><td><code>Hello123</code></td><td><strong>2 minutes</strong></td></tr>
+<tr><td>12 characters, mixed + symbols</td><td><code>Kx9#mP2!vL7@</code></td><td><strong>3,000 years</strong></td></tr>
+<tr><td>16 characters, all types</td><td><code>aR7$kM2!pX9@nQ4&</code></td><td><strong>Billions of years</strong></td></tr>
+</tbody>
+</table>
+
+<h2>Rules for Strong Passwords</h2>
+<ol>
+<li><strong>At least 12 characters</strong> — longer is always better</li>
+<li><strong>Mix everything</strong> — uppercase, lowercase, numbers, symbols</li>
+<li><strong>Never reuse passwords</strong> — each account gets its own</li>
+<li><strong>Never use personal info</strong> — no birthdays, names, or pet names</li>
+<li><strong>Use a generator</strong> — humans are terrible at being random</li>
+</ol>
+
+<div class="tool-box">
+<div class="tool-box-title">⚿ Free Password Generator</div>
+<a href="https://www.quicktools.sbs/#password">→ Generate a Crypto-Secure Password Now</a>
+<p style="font-size:13px;color:var(--t2);margin-top:4px">Adjustable length, character types, and strength meter. Uses browser crypto API — nothing sent to any server.</p>
+</div>
+
+<h2>What Makes Our Generator Different</h2>
+<p>Unlike other password generators, QuickTools uses your browser's built-in <strong>cryptographic random number generator</strong> (the same technology used in banking). Your password is generated entirely on your device — it's never sent over the internet, never stored anywhere. True privacy.</p>
+</div>
+
+<div class="share-row">
+    <a href="https://wa.me/?text=Are%20your%20passwords%20safe%3F%20Free%20secure%20password%20generator%20%F0%9F%94%90%0Ahttps%3A%2F%2Fwww.quicktools.sbs%2Fblog%23passwords" style="background:#25D366" target="_blank">💬 Share on WhatsApp</a>
+    <a href="https://twitter.com/intent/tweet?text=Are%20your%20passwords%20safe%3F%20Free%20generator%20%F0%9F%94%90%0Ahttps%3A%2F%2Fwww.quicktools.sbs%2Fblog%23passwords" style="background:#1DA1F2" target="_blank">𝕏 Tweet</a>
+</div>
+</div>
+
+<!-- BMI ARTICLE -->
+<div id="article-bmi" class="article-full">
+<button class="article-back" onclick="backToList()">← Back to all articles</button>
+<h1>BMI Calculator: What Your Body Mass Index Really Means</h1>
+<div class="meta">Health Guide • 4 min read • Updated 2025</div>
+<div class="prose">
+<p><strong>Body Mass Index (BMI)</strong> is a simple screening tool that estimates whether your weight is in a healthy range for your height. While it's not perfect, it's the most widely used measure by doctors worldwide.</p>
+
+<h2>BMI Categories</h2>
+<table>
+<thead><tr><th>BMI Range</th><th>Category</th><th>Health Risk</th></tr></thead>
+<tbody>
+<tr><td>Below 18.5</td><td><strong>Underweight</strong></td><td>Nutritional deficiency risk</td></tr>
+<tr><td>18.5 – 24.9</td><td><strong>Normal</strong></td><td>Lowest health risk</td></tr>
+<tr><td>25.0 – 29.9</td><td><strong>Overweight</strong></td><td>Moderate risk increase</td></tr>
+<tr><td>30.0+</td><td><strong>Obese</strong></td><td>Higher health risks</td></tr>
+</tbody>
+</table>
+
+<h2>The BMI Formula</h2>
+<p><strong>BMI = weight (kg) ÷ height (m)²</strong></p>
+<p>For example, if you weigh 70 kg and are 1.70 m tall: BMI = 70 ÷ (1.70 × 1.70) = 70 ÷ 2.89 = <strong>24.2</strong> (Normal weight).</p>
+
+<div class="tool-box">
+<div class="tool-box-title">⚖️ Free BMI Calculator</div>
+<a href="https://www.quicktools.sbs/#bmi">→ Calculate Your BMI Now (Metric & Imperial)</a>
+<p style="font-size:13px;color:var(--t2);margin-top:4px">Instant results with health classification. Supports both kg/cm and lbs/ft.</p>
+</div>
+
+<h2>Important: BMI Limitations</h2>
+<p>BMI doesn't distinguish between muscle and fat. Athletes with high muscle mass may show as "overweight" despite being very healthy. BMI also doesn't account for age, gender, or body composition. It's a useful starting point, not a complete health assessment. Always consult a healthcare professional for personalized advice.</p>
+</div>
+
+<div class="share-row">
+    <a href="https://wa.me/?text=What%20does%20your%20BMI%20mean%3F%20Free%20calculator%20%2B%20health%20guide%20%E2%9A%96%EF%B8%8F%0Ahttps%3A%2F%2Fwww.quicktools.sbs%2Fblog%23bmi" style="background:#25D366" target="_blank">💬 Share on WhatsApp</a>
+    <a href="https://twitter.com/intent/tweet?text=What%20does%20your%20BMI%20mean%3F%20Free%20calculator%20%2B%20guide%20%E2%9A%96%EF%B8%8F%0Ahttps%3A%2F%2Fwww.quicktools.sbs%2Fblog%23bmi" style="background:#1DA1F2" target="_blank">𝕏 Tweet</a>
+</div>
+</div>
+
+<!-- STUDENT TOOLS ARTICLE -->
+<div id="article-student" class="article-full">
+<button class="article-back" onclick="backToList()">← Back to all articles</button>
+<h1>10 Free Online Tools Every University Student Needs in 2025</h1>
+<div class="meta">Productivity • 6 min read • Updated 2025</div>
+<div class="prose">
+<p>University life is expensive enough. You don't need to pay for tools that should be free. Here are 10 essential tools that every student should bookmark — all free, no signup required.</p>
+
+<h2>1. GPA Calculator</h2>
+<p>Know your GPA in seconds. Add courses, credits, and grades — get instant results with honors classification.</p>
+<div class="tool-box"><div class="tool-box-title">🎓</div><a href="https://www.quicktools.sbs/#gpa">→ Free GPA Calculator</a></div>
+
+<h2>2. Scientific Calculator</h2>
+<p>Full scientific calculator with sin, cos, tan, log, square root, powers, and more. Keyboard support and calculation history.</p>
+<div class="tool-box"><div class="tool-box-title">🧮</div><a href="https://www.quicktools.sbs/#calc">→ Free Scientific Calculator</a></div>
+
+<h2>3. Pomodoro Timer</h2>
+<p>The Pomodoro technique is scientifically proven to improve focus. Study for 25 minutes, take a 5-minute break. Repeat. Our timer tracks your sessions automatically.</p>
+<div class="tool-box"><div class="tool-box-title">🍅</div><a href="https://www.quicktools.sbs/#pomodoro">→ Free Pomodoro Timer</a></div>
+
+<h2>4. Percentage Calculator</h2>
+<p>What is 15% of 200? What percentage is 30 of 200? Calculate percentage changes between numbers. Essential for math and statistics classes.</p>
+<div class="tool-box"><div class="tool-box-title">%</div><a href="https://www.quicktools.sbs/#percentage">→ Free Percentage Calculator</a></div>
+
+<h2>5. Unit Converter</h2>
+<p>Convert between length, weight, temperature, volume, area, speed, data, and time units. 8 categories with instant live conversion.</p>
+<div class="tool-box"><div class="tool-box-title">📐</div><a href="https://www.quicktools.sbs/#units">→ Free Unit Converter</a></div>
+
+<h2>6. Word Counter</h2>
+<p>Writing an essay? Track words, characters, sentences, paragraphs, and estimated reading time as you type.</p>
+<div class="tool-box"><div class="tool-box-title">¶</div><a href="https://www.quicktools.sbs/#word">→ Free Word Counter</a></div>
+
+<h2>7. Notepad</h2>
+<p>Quick notes that auto-save in your browser. Copy all, download as .txt, or clear and start fresh. Your notes survive browser restarts.</p>
+<div class="tool-box"><div class="tool-box-title">📝</div><a href="https://www.quicktools.sbs/#notepad">→ Free Online Notepad</a></div>
+
+<h2>8. Calendar & Planner</h2>
+<p>Monthly calendar view with the ability to add notes to any day. Plan your assignments, exams, and deadlines.</p>
+<div class="tool-box"><div class="tool-box-title">📅</div><a href="https://www.quicktools.sbs/#calendar">→ Free Calendar Planner</a></div>
+
+<h2>9. Countdown Timer</h2>
+<p>Set a countdown to your next exam, assignment deadline, or graduation. See days, hours, minutes, and seconds remaining.</p>
+<div class="tool-box"><div class="tool-box-title">⏳</div><a href="https://www.quicktools.sbs/#countdown">→ Free Countdown Timer</a></div>
+
+<h2>10. Password Generator</h2>
+<p>University accounts, email, learning platforms — you need unique passwords for each. Generate crypto-secure passwords in one click.</p>
+<div class="tool-box"><div class="tool-box-title">⚿</div><a href="https://www.quicktools.sbs/#password">→ Free Password Generator</a></div>
+
+<p><strong>All 10 tools</strong> (plus 20 more) are available at <a href="https://www.quicktools.sbs">quicktools.sbs</a>. Bookmark it and share with your classmates.</p>
+</div>
+
+<div class="share-row">
+    <a href="https://wa.me/?text=10%20free%20tools%20every%20uni%20student%20needs%20%F0%9F%8E%93%20GPA%20calc%2C%20Pomodoro%20timer%2C%20notepad%20%26%20more%0Ahttps%3A%2F%2Fwww.quicktools.sbs%2Fblog%23student" style="background:#25D366" target="_blank">💬 Share on WhatsApp</a>
+    <a href="https://twitter.com/intent/tweet?text=10%20free%20tools%20every%20student%20needs%20%F0%9F%8E%93%0Ahttps%3A%2F%2Fwww.quicktools.sbs%2Fblog%23student" style="background:#1DA1F2" target="_blank">𝕏 Tweet</a>
+</div>
+</div>
+
+<!-- DEVELOPER ARTICLE -->
+<div id="article-developer" class="article-full">
+<button class="article-back" onclick="backToList()">← Back to all articles</button>
+<h1>Best Free Developer Tools You Can Use in Your Browser</h1>
+<div class="meta">Developer Guide • 5 min read • Updated 2025</div>
+<div class="prose">
+<p>No installs, no signups, no accounts. Just open the tool and use it. These browser-based developer utilities handle the small tasks you deal with daily — <strong>formatting JSON, encoding Base64, generating hashes, comparing text</strong>, and more.</p>
+
+<h2>JSON Formatter & Validator</h2>
+<p>Paste messy JSON, click beautify. Validates structure and highlights errors. Also minifies for production use.</p>
+<div class="tool-box"><div class="tool-box-title">{ }</div><a href="https://www.quicktools.sbs/#json">→ JSON Formatter</a></div>
+
+<h2>Base64 Encoder / Decoder</h2>
+<p>Convert images to Base64 strings for embedding in HTML/CSS, or decode Base64 back to images. Drag and drop supported.</p>
+<div class="tool-box"><div class="tool-box-title">↔</div><a href="https://www.quicktools.sbs/#base64">→ Base64 Converter</a></div>
+
+<h2>Hash Generator (SHA-256, SHA-512, SHA-1)</h2>
+<p>Generate cryptographic hashes from text or files. Supports SHA-256, SHA-512, and SHA-1. Click to copy any hash.</p>
+<div class="tool-box"><div class="tool-box-title">#</div><a href="https://www.quicktools.sbs/#hash">→ Hash Generator</a></div>
+
+<h2>Markdown Preview</h2>
+<p>Write Markdown on the left, see rendered HTML on the right. Live preview with full support for tables, code blocks, blockquotes.</p>
+<div class="tool-box"><div class="tool-box-title">M↓</div><a href="https://www.quicktools.sbs/#markdown">→ Markdown Preview</a></div>
+
+<h2>Timestamp Converter</h2>
+<p>Convert Unix timestamps to human-readable dates and vice versa. Live epoch counter shows current timestamp updating every second.</p>
+<div class="tool-box"><div class="tool-box-title">⏱</div><a href="https://www.quicktools.sbs/#timestamp">→ Timestamp Converter</a></div>
+
+<h2>URL Encoder / Decoder</h2>
+<p>Encode special characters for URLs or decode percent-encoded strings. Essential for working with APIs and query parameters.</p>
+<div class="tool-box"><div class="tool-box-title">%</div><a href="https://www.quicktools.sbs/#urlenc">→ URL Encoder</a></div>
+
+<h2>Text Diff / Compare</h2>
+<p>Paste two versions of text and see exactly what changed — additions in green, deletions in red. Line-by-line comparison.</p>
+<div class="tool-box"><div class="tool-box-title">⇄</div><a href="https://www.quicktools.sbs/#diff">→ Text Diff Tool</a></div>
+
+<p>All tools run entirely in your browser. No data is ever sent to a server. <a href="https://www.quicktools.sbs">Bookmark QuickTools</a> for instant access.</p>
+</div>
+
+<div class="share-row">
+    <a href="https://wa.me/?text=Free%20browser-based%20developer%20tools%20%F0%9F%9B%A0%20JSON%2C%20Base64%2C%20hashing%2C%20diff%20%26%20more%0Ahttps%3A%2F%2Fwww.quicktools.sbs%2Fblog%23developer" style="background:#25D366" target="_blank">💬 Share on WhatsApp</a>
+    <a href="https://twitter.com/intent/tweet?text=Free%20browser%20dev%20tools%20%F0%9F%9B%A0%20JSON%2C%20Base64%2C%20hashing%20%26%20more%0Ahttps%3A%2F%2Fwww.quicktools.sbs%2Fblog%23developer" style="background:#1DA1F2" target="_blank">𝕏 Tweet</a>
+</div>
+</div>
+
+<footer>
+    <p>&copy; 2025 <a href="https://www.quicktools.sbs">QuickTools</a> — Free Online Tools for Students, Developers & Business</p>
+</footer>
+
+</div><!-- /wrap -->
+
+<script>
+function showArticle(id){
+    document.getElementById('articles-list').style.display='none';
+    document.querySelectorAll('.article-full').forEach(a=>a.classList.remove('active'));
+    const el=document.getElementById('article-'+id);
+    if(el){el.classList.add('active');window.scrollTo(0,0)}
+}
+function backToList(){
+    document.querySelectorAll('.article-full').forEach(a=>a.classList.remove('active'));
+    document.getElementById('articles-list').style.display='block';
+    window.scrollTo(0,0);
+}
+// Handle hash links
+const h=window.location.hash.replace('#','');
+if(h&&document.getElementById('article-'+h))showArticle(h);
+</script>
+</body>
+</html>
